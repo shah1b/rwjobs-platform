@@ -1,3 +1,4 @@
+// RemoteHunt Store - Market Ready
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 

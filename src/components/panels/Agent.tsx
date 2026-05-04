@@ -1,27 +1,39 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Sparkles, Send, Bot, User } from 'lucide-react';
-import { useStore } from '../../store/useStore';
+import { supabase } from '../../lib/supabase';
 
 export const AgentPanel = () => {
+  const { user } = useStore();
   const [messages, setMessages] = useState([
-    { role: 'ai', text: "Hey Hasan! 👋 I'm your AI job-hunting agent. I'm scanning 50+ platforms to find the perfect remote opportunities tailored to your Brand Designer profile. What are you looking for today?" }
+    { role: 'ai', text: `Hey ${user?.email?.split('@')[0] || 'there'}! 👋 I'm your AI job-hunting agent. I'm scanning 50+ platforms to find the perfect remote opportunities tailored to your profile. What are you looking for today?` }
   ]);
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  const handleSend = async (customInput?: string) => {
+    const text = customInput || input;
+    if (!text.trim() || isTyping) return;
     
-    setMessages(prev => [...prev, { role: 'user', text: input }]);
+    const newMessages = [...messages, { role: 'user', text }];
+    setMessages(newMessages);
     setInput('');
+    setIsTyping(true);
     
-    // Simulate AI response
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'ai', 
-        text: `I've analyzed your request for "${input}". I'm seeing a surge in senior design roles at series-B startups. Would you like me to filter for those with $100k+ salaries?` 
-      }]);
-    }, 1000);
+    try {
+      const { data, error } = await supabase.functions.invoke('chat', {
+        body: { messages: newMessages }
+      });
+
+      if (error) throw error;
+      
+      setMessages(prev => [...prev, { role: 'ai', text: data.text }]);
+    } catch (err: any) {
+      setMessages(prev => [...prev, { role: 'ai', text: "Sorry, I'm having trouble connecting right now. Please check your internet or try again later." }]);
+      console.error(err);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   useEffect(() => {
@@ -47,6 +59,13 @@ export const AgentPanel = () => {
               <div className="msg-bubble">{msg.text}</div>
             </div>
           ))}
+          {isTyping && (
+            <div className="msg ai">
+              <div className="msg-bubble" style={{ opacity: 0.7 }}>
+                <span className="typing-dots">Thinking...</span>
+              </div>
+            </div>
+          )}
           <div ref={chatEndRef} />
         </div>
 
@@ -58,8 +77,14 @@ export const AgentPanel = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+              disabled={isTyping}
             />
-            <button className="btn-primary" style={{ borderRadius: '50%', width: 42, height: 42, padding: 0, justifyContent: 'center' }} onClick={handleSend}>
+            <button 
+              className="btn-primary" 
+              style={{ borderRadius: '50%', width: 42, height: 42, padding: 0, justifyContent: 'center' }} 
+              onClick={() => handleSend()}
+              disabled={isTyping || !input.trim()}
+            >
               <Send size={16} />
             </button>
           </div>
@@ -69,7 +94,8 @@ export const AgentPanel = () => {
                 key={i} 
                 className="btn-secondary" 
                 style={{ fontSize: 11, padding: '6px 12px', whiteSpace: 'nowrap' }}
-                onClick={() => setInput(q)}
+                onClick={() => handleSend(q)}
+                disabled={isTyping}
               >
                 {q}
               </button>

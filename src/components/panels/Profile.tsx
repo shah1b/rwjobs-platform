@@ -1,14 +1,46 @@
-import React from 'react';
-import { User, MapPin, Briefcase, Zap, Star, LogOut, Settings } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { User, MapPin, Briefcase, Zap, Star, LogOut, Settings, FileText, Plus, Loader2 } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { supabase } from '../../lib/supabase';
 
 export const ProfilePanel = () => {
   const { user, setPanel } = useStore();
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setPanel('home');
+  };
+
+  const handleResumeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+
+    setUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}-${Math.random()}.${fileExt}`;
+      const filePath = `resumes/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('resumes')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // Save to user metadata
+      const { error: updateError } = await supabase.auth.updateUser({
+        data: { resume_path: filePath }
+      });
+
+      if (updateError) throw updateError;
+      alert('Resume uploaded successfully! Our AI is now ready to analyze it.');
+    } catch (err: any) {
+      alert('Error uploading resume: ' + err.message);
+    } finally {
+      setUploading(false);
+    }
   };
 
   if (!user) {
@@ -87,6 +119,50 @@ export const ProfilePanel = () => {
               {['Brand Design', 'UI/UX', 'Product Strategy', 'Typography', 'Visual Identity', 'Figma', 'React'].map(skill => (
                 <span key={skill} className="tag">{skill}</span>
               ))}
+            </div>
+          </div>
+          <div className="settings-block" style={{ gridColumn: 'span 2' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+              <h3 style={{ fontSize: 16, fontWeight: 800 }}>Resume & AI Matching</h3>
+              <div style={{ fontSize: 11, background: 'rgba(200, 241, 53, .1)', color: 'var(--acc)', padding: '4px 8px', borderRadius: 4, fontWeight: 700 }}>AI Powered</div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+              <div style={{ border: '1px dashed var(--brd)', borderRadius: 'var(--r)', padding: '24px', textAlign: 'center' }}>
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  style={{ display: 'none' }} 
+                  onChange={handleResumeUpload}
+                  accept=".pdf,.doc,.docx"
+                />
+                <FileText size={32} style={{ margin: '0 auto 12px', color: user.user_metadata?.resume_path ? 'var(--acc)' : 'var(--txt3)' }} />
+                <h4 style={{ fontSize: 14, marginBottom: 4 }}>
+                  {user.user_metadata?.resume_path ? 'Resume Uploaded' : 'Upload Resume'}
+                </h4>
+                <p style={{ fontSize: 12, color: 'var(--txt2)', marginBottom: 16 }}>
+                  {user.user_metadata?.resume_path ? 'Ready for AI analysis' : 'PDF or Word, max 5MB'}
+                </p>
+                <button 
+                  className="btn-primary" 
+                  style={{ fontSize: 12, padding: '8px 16px' }} 
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                >
+                  {uploading ? <Loader2 className="animate-spin" size={14} /> : (
+                    <><Plus size={14} /> {user.user_metadata?.resume_path ? 'Update File' : 'Select File'}</>
+                  )}
+                </button>
+              </div>
+              <div>
+                <p style={{ fontSize: 13, color: 'var(--txt2)', lineHeight: 1.5 }}>
+                  Upload your resume to let our AI agent analyze your experience. It will automatically:
+                </p>
+                <ul style={{ fontSize: 12, color: 'var(--txt2)', marginTop: 12, paddingLeft: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <li>✨ Highlight your top skills</li>
+                  <li>🔍 Suggest perfectly matched remote roles</li>
+                  <li>✍️ Draft personalized cover letters</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

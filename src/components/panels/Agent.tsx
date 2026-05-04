@@ -22,7 +22,10 @@ export const AgentPanel = () => {
     
     try {
       const { data, error } = await supabase.functions.invoke('chat', {
-        body: { messages: newMessages }
+        body: { 
+          messages: newMessages,
+          user: user // Pass user metadata for resume context
+        }
       });
 
       if (error) throw error;

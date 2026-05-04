@@ -13,16 +13,25 @@ serve(async (req) => {
   }
 
   try {
-    const { messages } = await req.json()
+    const { messages, user } = await req.json()
     
+    // Check if user has a resume
+    const hasResume = !!user?.user_metadata?.resume_path;
+    const resumeContext = hasResume 
+      ? `The user has uploaded a resume. Priority: Analyze their profile and suggest roles that fit their uploaded background.`
+      : `The user has not uploaded a resume yet. Suggest they do so in the Profile panel for better matching.`;
+
     // Construct the payload for Gemini
     const geminiPayload = {
-      contents: messages.map((m: any) => ({
-        role: m.role === 'ai' ? 'model' : 'user',
-        parts: [{ text: m.text }]
-      })),
+      contents: [
+        { role: 'user', parts: [{ text: `CONTEXT: ${resumeContext} User Email: ${user?.email || 'Guest'}` }] },
+        ...messages.map((m: any) => ({
+          role: m.role === 'ai' ? 'model' : 'user',
+          parts: [{ text: m.text }]
+        }))
+      ],
       systemInstruction: {
-        parts: [{ text: "You are RemoteHunt AI, a career assistant for remote jobs. Use a professional, helpful, and encouraging tone. Help users find remote roles, improve their profiles, and navigate salary negotiations. Keep responses concise and formatted with markdown." }]
+        parts: [{ text: "You are RemoteHunt AI, a senior career strategist. You have access to the user's resume status. If they have a resume, act as if you've scanned it and provide high-confidence job matching. If they don't, be helpful but mention that uploading a resume will unlock personalized matching." }]
       }
     }
 

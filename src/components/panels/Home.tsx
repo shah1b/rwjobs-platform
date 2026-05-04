@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, TrendingUp, Users, CheckCircle } from 'lucide-react';
+import { Sparkles, TrendingUp, Users, CheckCircle, Bookmark } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { JobCard } from '../JobCard';
 

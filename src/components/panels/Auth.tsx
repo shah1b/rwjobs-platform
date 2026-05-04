@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { LogIn, UserPlus, Github, Mail, Lock, Loader2, Sparkles } from 'lucide-react';
+import { LogIn, UserPlus, Mail, Lock, Loader2, Sparkles } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 
 export const AuthPanel = () => {

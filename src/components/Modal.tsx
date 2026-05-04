@@ -39,7 +39,12 @@ export const Modal = () => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 24 }}>
             <div style={{ background: 'var(--bg2)', padding: '12px 16px', borderRadius: 'var(--r2)', border: '1px solid var(--brd)' }}>
               <div style={{ color: 'var(--txt3)', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', marginBottom: 4 }}>Salary</div>
-              <div style={{ fontWeight: 700, fontSize: 14 }}>{job.salary}</div>
+              <div style={{ fontWeight: 700, fontSize: 14 }}>
+                {job.salary}
+                <span style={{ color: 'var(--txt3)', fontSize: '11px', marginLeft: 4, display: 'block' }}>
+                  ≈ ৳{(parseInt(job.salary.replace(/[^0-9]/g, '')) * 120 / 1000).toFixed(0)}k BDT
+                </span>
+              </div>
             </div>
             <div style={{ background: 'var(--bg2)', padding: '12px 16px', borderRadius: 'var(--r2)', border: '1px solid var(--brd)' }}>
               <div style={{ color: 'var(--txt3)', fontSize: 11, fontWeight: 700, textTransform: 'uppercase', marginBottom: 4 }}>Location</div>

@@ -44,7 +44,12 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
 
       <div className="jc-bottom">
         <div>
-          <div className="jc-salary">{job.salary}/yr</div>
+          <div className="jc-salary">
+            {job.salary}/yr 
+            <span style={{ color: 'var(--txt3)', fontSize: '11px', marginLeft: 6, fontWeight: 500 }}>
+              (≈ ৳{(parseInt(job.salary.replace(/[^0-9]/g, '')) * 120 / 1000).toFixed(0)}k BDT)
+            </span>
+          </div>
           <div className="jc-posted">Posted {job.posted}</div>
         </div>
         <div className="jc-actions">

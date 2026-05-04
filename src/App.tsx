@@ -13,6 +13,7 @@ import { AuthPanel } from './components/panels/Auth';
 import { AppsPanel } from './components/panels/AppsPanel';
 import { AlertsPanel } from './components/panels/AlertsPanel';
 import { Modal } from './components/Modal';
+import { Onboarding } from './components/Onboarding';
 
 const mapCategory = (cat: string) => {
   const m: Record<string, string> = {
@@ -32,7 +33,7 @@ const mapCategory = (cat: string) => {
 };
 
 function App() {
-  const { currentPanel, setJobs, setLoading, setUser } = useStore();
+  const { currentPanel, setJobs, setLoading, setUser, hasSeenOnboarding } = useStore();
 
   useEffect(() => {
     // 1. Initial Session Check
@@ -112,6 +113,7 @@ function App() {
 
   return (
     <div className="app-container">
+      {!hasSeenOnboarding && <Onboarding />}
       <Sidebar />
       <main className="main">
         <Topbar />

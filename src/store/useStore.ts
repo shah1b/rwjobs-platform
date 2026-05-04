@@ -41,6 +41,8 @@ interface AppState {
   setSearchQuery: (query: string) => void;
   setSelectedJob: (id: number | string | null) => void;
   setUser: (user: any) => void;
+  hasSeenOnboarding: boolean;
+  completeOnboarding: () => void;
 }
 
 export const useStore = create<AppState>()(
@@ -75,6 +77,8 @@ export const useStore = create<AppState>()(
       setSelectedJob: (id) => set({ selectedJobId: id }),
 
       setUser: (user) => set({ user }),
+      hasSeenOnboarding: false,
+      completeOnboarding: () => set({ hasSeenOnboarding: true }),
     }),
     {
       name: 'remote-hunt-storage',
@@ -82,6 +86,7 @@ export const useStore = create<AppState>()(
       partialize: (state) => ({
         savedJobs: Array.from(state.savedJobs),
         currentPanel: state.currentPanel,
+        hasSeenOnboarding: state.hasSeenOnboarding,
       }) as any,
       onRehydrateStorage: () => (state) => {
         if (state && state.savedJobs) {

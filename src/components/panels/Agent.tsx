@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Sparkles, Send, Bot, User } from 'lucide-react';
+import { useStore } from '../../store/useStore';
 import { supabase } from '../../lib/supabase';
 
 export const AgentPanel = () => {

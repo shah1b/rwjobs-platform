@@ -3,7 +3,7 @@ import { LayoutDashboard, Search, Sparkles, Bookmark, FileText, Bell, User, Sett
 import { useStore } from '../store/useStore';
 
 export const Sidebar = () => {
-  const { currentPanel, setPanel } = useStore();
+  const { currentPanel, setPanel, user } = useStore();
 
   const navItems = [
     { id: 'home', label: 'Dashboard', icon: LayoutDashboard, badge: 'New', badgeColor: 'green' },
@@ -82,14 +82,25 @@ export const Sidebar = () => {
       </nav>
 
       <div className="sidebar-bottom">
-        <div className="user-card" onClick={() => setPanel('profile')}>
-          <div className="user-av">H</div>
-          <div className="user-info">
-            <div className="user-name">Hasan sh4hib</div>
-            <div className="user-role">Brand Designer · GMT+6</div>
+        {user ? (
+          <div className="user-card" onClick={() => setPanel('profile')}>
+            <div className="user-av">{user.email?.substring(0, 1).toUpperCase()}</div>
+            <div className="user-info">
+              <div className="user-name">{user.email?.split('@')[0]}</div>
+              <div className="user-role">Member · RemoteHunt</div>
+            </div>
+            <MoreHorizontal size={14} className="user-dots" />
           </div>
-          <MoreHorizontal size={14} className="user-dots" />
-        </div>
+        ) : (
+          <button 
+            className="btn-primary" 
+            style={{ width: '100%', justifyContent: 'center' }}
+            onClick={() => setPanel('auth')}
+          >
+            <User size={16} />
+            Sign In
+          </button>
+        )}
       </div>
     </aside>
   );

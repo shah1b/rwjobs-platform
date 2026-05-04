@@ -1,7 +1,26 @@
 import React from 'react';
-import { User, MapPin, Briefcase, Zap, Star } from 'lucide-react';
+import { User, MapPin, Briefcase, Zap, Star, LogOut, Settings } from 'lucide-react';
+import { useStore } from '../../store/useStore';
+import { supabase } from '../../lib/supabase';
 
 export const ProfilePanel = () => {
+  const { user, setPanel } = useStore();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setPanel('home');
+  };
+
+  if (!user) {
+    return (
+      <div className="panel" style={{ textAlign: 'center', paddingTop: '100px' }}>
+        <h2>Sign in to view your profile</h2>
+        <p style={{ color: 'var(--txt2)', marginBottom: '20px' }}>Manage your applications, saved jobs, and career preferences.</p>
+        <button className="btn-primary" onClick={() => setPanel('auth')}>Sign In Now</button>
+      </div>
+    );
+  }
+
   return (
     <div className="panel">
       <div className="profile-layout" style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '24px' }}>
@@ -13,11 +32,28 @@ export const ProfilePanel = () => {
             padding: '28px',
             textAlign: 'center'
           }}>
-            <div className="user-av" style={{ width: 80, height: 80, margin: '0 auto 14px', fontSize: 26 }}>H</div>
-            <h2 className="profile-name" style={{ fontSize: 20, fontWeight: 900 }}>Hasan sh4hib</h2>
-            <p style={{ color: 'var(--txt2)', fontSize: 13 }}>Creative Director & Brand Designer</p>
+            <div className="user-av" style={{ width: 80, height: 80, margin: '0 auto 14px', fontSize: 26 }}>
+              {user.email?.substring(0, 1).toUpperCase()}
+            </div>
+            <h2 className="profile-name" style={{ fontSize: 20, fontWeight: 900 }}>{user.email?.split('@')[0]}</h2>
+            <p style={{ color: 'var(--txt2)', fontSize: 13 }}>{user.user_metadata?.role || 'Remote Professional'}</p>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, fontSize: 12, color: 'var(--txt3)', marginTop: 8 }}>
-              <MapPin size={12} /> Dhaka, Bangladesh
+              <MapPin size={12} /> {user.user_metadata?.location || 'Location not set'}
+            </div>
+
+            <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <button className="btn-secondary" style={{ width: '100%', justifyContent: 'center' }}>
+                <Settings size={14} />
+                Edit Profile
+              </button>
+              <button 
+                className="btn-secondary" 
+                style={{ width: '100%', justifyContent: 'center', color: 'var(--acc3)', borderColor: 'rgba(255,107,107,.2)' }}
+                onClick={handleLogout}
+              >
+                <LogOut size={14} />
+                Sign Out
+              </button>
             </div>
           </div>
         </div>

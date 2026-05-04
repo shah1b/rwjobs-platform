@@ -10,6 +10,8 @@ import { AgentPanel } from './components/panels/Agent';
 import { SavedPanel } from './components/panels/Saved';
 import { ProfilePanel } from './components/panels/Profile';
 import { AuthPanel } from './components/panels/Auth';
+import { AppsPanel } from './components/panels/AppsPanel';
+import { AlertsPanel } from './components/panels/AlertsPanel';
 import { Modal } from './components/Modal';
 
 const mapCategory = (cat: string) => {
@@ -102,8 +104,8 @@ function App() {
       case 'saved': return <SavedPanel />;
       case 'profile': return <ProfilePanel />;
       case 'auth': return <AuthPanel />;
-      case 'apps': return <div className="panel"><h2>Applications</h2><p>Your job applications will appear here.</p></div>;
-      case 'alerts': return <div className="panel"><h2>Job Alerts</h2><p>Manage your job alerts and notifications.</p></div>;
+      case 'apps': return <AppsPanel />;
+      case 'alerts': return <AlertsPanel />;
       default: return <HomePanel />;
     }
   };

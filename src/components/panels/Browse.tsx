@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useStore } from '../../store/useStore';
 import { JobCard } from '../JobCard';
-import { Code, Palette, Box, BarChart, Terminal, Cpu } from 'lucide-react';
+import { Code, Palette, Box, BarChart, Terminal, Cpu, Briefcase, TrendingUp } from 'lucide-react';
 
 export const BrowsePanel = () => {
   const { jobs, isLoading, searchQuery } = useStore();
@@ -15,6 +15,8 @@ export const BrowsePanel = () => {
     { id: 'Marketing', label: 'Marketing', icon: BarChart },
     { id: 'Data', label: 'Data', icon: Cpu },
     { id: 'DevOps', label: 'DevOps', icon: Terminal },
+    { id: 'Business', label: 'Business', icon: Briefcase },
+    { id: 'Sales', label: 'Sales', icon: TrendingUp },
   ];
 
   const filteredJobs = jobs.filter((job) => {

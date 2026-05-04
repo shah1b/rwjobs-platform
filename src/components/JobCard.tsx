@@ -7,11 +7,14 @@ interface JobCardProps {
 }
 
 export const JobCard: React.FC<JobCardProps> = ({ job }) => {
-  const { savedJobs, toggleSave } = useStore();
+  const { savedJobs, toggleSave, setSelectedJob } = useStore();
   const isSaved = savedJobs.has(job.id);
 
   return (
-    <div className={`job-card ${job.featured ? 'featured' : ''}`}>
+    <div 
+      className={`job-card ${job.featured ? 'featured' : ''}`}
+      onClick={() => setSelectedJob(job.id)}
+    >
       <div className="jc-top">
         <div 
           className="co-logo" 
@@ -54,7 +57,16 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
           >
             <Bookmark size={14} fill={isSaved ? 'currentColor' : 'none'} />
           </button>
-          <button className="apply-quick">Apply</button>
+          <button 
+            className="apply-quick"
+            onClick={(e) => {
+              e.stopPropagation();
+              // In a real app, this would redirect or open a form
+              window.open('https://remotive.com', '_blank');
+            }}
+          >
+            Apply
+          </button>
         </div>
       </div>
     </div>

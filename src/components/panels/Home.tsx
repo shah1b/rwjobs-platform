@@ -4,7 +4,7 @@ import { useStore } from '../../store/useStore';
 import { JobCard } from '../JobCard';
 
 export const HomePanel = () => {
-  const { jobs, isLoading, setPanel } = useStore();
+  const { jobs, isLoading, setPanel, savedJobs } = useStore();
 
   const topPicks = [...jobs]
     .sort((a, b) => b.match - a.match)
@@ -59,7 +59,24 @@ export const HomePanel = () => {
           <div className="stat-num">3</div>
           <div className="stat-label">Applications sent</div>
         </div>
-        {/* Add more stat cards as needed */}
+        <div className="stat-card">
+          <div className="stat-card-top">
+            <div className="stat-icon" style={{ background: 'rgba(255,107,107,.08)' }}>
+              <Users size={16} color="var(--acc3)" />
+            </div>
+          </div>
+          <div className="stat-num">12</div>
+          <div className="stat-label">Profile views</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-card-top">
+            <div className="stat-icon" style={{ background: 'rgba(255,209,102,.08)' }}>
+              <Bookmark size={16} color="var(--acc4)" />
+            </div>
+          </div>
+          <div className="stat-num">{savedJobs.size}</div>
+          <div className="stat-label">Saved opportunities</div>
+        </div>
       </div>
 
       <div className="section-hdr">

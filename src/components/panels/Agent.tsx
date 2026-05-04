@@ -51,7 +51,7 @@ export const AgentPanel = () => {
         </div>
 
         <div className="chat-input-area">
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
             <input 
               className="chat-inp" 
               placeholder="Ask about remote jobs, salary, companies…" 
@@ -62,6 +62,18 @@ export const AgentPanel = () => {
             <button className="btn-primary" style={{ borderRadius: '50%', width: 42, height: 42, padding: 0, justifyContent: 'center' }} onClick={handleSend}>
               <Send size={16} />
             </button>
+          </div>
+          <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
+            {['Find high-paying Design jobs', 'Remote companies in Europe', 'Salary for Senior Product Manager'].map((q, i) => (
+              <button 
+                key={i} 
+                className="btn-secondary" 
+                style={{ fontSize: 11, padding: '6px 12px', whiteSpace: 'nowrap' }}
+                onClick={() => setInput(q)}
+              >
+                {q}
+              </button>
+            ))}
           </div>
         </div>
       </div>

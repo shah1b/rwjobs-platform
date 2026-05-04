@@ -23,7 +23,7 @@ export const ProfilePanel = () => {
         </div>
 
         <div className="profile-main">
-          <div className="settings-block" style={{ background: 'var(--bg2)', borderRadius: 'var(--r2)', border: '1px solid var(--brd)' }}>
+          <div className="settings-block" style={{ background: 'var(--bg2)', borderRadius: 'var(--r2)', border: '1px solid var(--brd)', marginBottom: '20px' }}>
             <div style={{ padding: 18, borderBottom: '1px solid var(--brd)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
               <Zap size={14} color="var(--acc)" /> Job Preferences
             </div>
@@ -36,6 +36,21 @@ export const ProfilePanel = () => {
                 <span style={{ color: 'var(--txt2)' }}>Target Salary</span>
                 <span style={{ color: 'var(--txt)', fontWeight: 600 }}>$60k – $120k</span>
               </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: 'var(--txt2)' }}>Availability</span>
+                <span style={{ color: 'var(--acc2)', fontWeight: 600 }}>Immediate</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="settings-block" style={{ background: 'var(--bg2)', borderRadius: 'var(--r2)', border: '1px solid var(--brd)' }}>
+            <div style={{ padding: 18, borderBottom: '1px solid var(--brd)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Star size={14} color="var(--acc4)" /> Skills & Expertise
+            </div>
+            <div style={{ padding: 18, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {['Brand Design', 'UI/UX', 'Product Strategy', 'Typography', 'Visual Identity', 'Figma', 'React'].map(skill => (
+                <span key={skill} className="tag">{skill}</span>
+              ))}
             </div>
           </div>
         </div>

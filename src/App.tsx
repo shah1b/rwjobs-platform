@@ -3,6 +3,7 @@ import { Sidebar } from './components/Sidebar';
 import { Topbar } from './components/Topbar';
 import { BottomNav } from './components/BottomNav';
 import { useStore, type Job } from './store/useStore';
+import { supabase } from './lib/supabase';
 import { HomePanel } from './components/panels/Home';
 import { BrowsePanel } from './components/panels/Browse';
 import { AgentPanel } from './components/panels/Agent';
@@ -17,13 +18,32 @@ const mapCategory = (cat: string) => {
     'Product': 'Product',
     'Marketing': 'Marketing',
     'Data': 'Data',
-    'DevOps / Sysadmin': 'DevOps'
+    'DevOps / Sysadmin': 'DevOps',
+    'Business': 'Business',
+    'Customer Support': 'Support',
+    'Human Resources': 'HR',
+    'Sales': 'Sales',
+    'Writing': 'Writing'
   };
   return m[cat] || 'Engineering';
 };
 
 function App() {
-  const { currentPanel, setJobs, setLoading } = useStore();
+  const { currentPanel, setJobs, setLoading, setUser } = useStore();
+
+  useEffect(() => {
+    // 1. Initial Session Check
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // 2. Auth Listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [setUser]);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -80,6 +100,8 @@ function App() {
       case 'agent': return <AgentPanel />;
       case 'saved': return <SavedPanel />;
       case 'profile': return <ProfilePanel />;
+      case 'apps': return <div className="panel"><h2>Applications</h2><p>Your job applications will appear here.</p></div>;
+      case 'alerts': return <div className="panel"><h2>Job Alerts</h2><p>Manage your job alerts and notifications.</p></div>;
       default: return <HomePanel />;
     }
   };

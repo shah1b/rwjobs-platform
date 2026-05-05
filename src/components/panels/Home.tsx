@@ -41,7 +41,7 @@ export const HomePanel = () => {
       <div className="stat-row">
         <div className="stat-card">
           <div className="stat-card-top">
-            <div className="stat-icon" style={{ background: 'rgba(200,241,53,.08)' }}>
+            <div className="stat-icon" style={{ background: 'rgba(0, 82, 255,.08)' }}>
               <TrendingUp size={16} color="var(--acc)" />
             </div>
             <span className="stat-change up">↑ 24%</span>

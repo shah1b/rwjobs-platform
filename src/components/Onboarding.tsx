@@ -92,9 +92,9 @@ export const Onboarding = () => {
         .onboarding-card {
           width: 100%;
           max-width: 500px;
-          background: rgba(255,255,255,0.02);
+          background: rgba(0,0,0,0.02);
           backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.05);
+          border: 1px solid rgba(0,0,0,0.05);
           border-radius: 32px;
           padding: 40px;
           position: relative;
@@ -124,7 +124,7 @@ export const Onboarding = () => {
         .onboarding-icon-wrap {
           width: 100px;
           height: 100px;
-          background: rgba(200, 241, 53, 0.05);
+          background: rgba(0, 82, 255, 0.05);
           border-radius: 30px;
           display: flex;
           align-items: center;
@@ -168,10 +168,10 @@ export const Onboarding = () => {
           gap: 10px;
           font-size: 13px;
           color: var(--txt);
-          background: rgba(255,255,255,0.03);
+          background: rgba(0,0,0,0.03);
           padding: 8px 16px;
           border-radius: 12px;
-          border: 1px solid rgba(255,255,255,0.05);
+          border: 1px solid rgba(0,0,0,0.05);
         }
         .onboarding-footer {
           display: flex;

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { Topbar } from './components/Topbar';
-import { BottomNav } from './components/BottomNav';
+
 import { useStore, type Job } from './store/useStore';
 import { supabase } from './lib/supabase';
 import { HomePanel } from './components/panels/Home';
@@ -143,7 +143,6 @@ function App() {
           {renderPanel()}
         </div>
       </main>
-      <BottomNav />
       <Modal />
     </div>
   );

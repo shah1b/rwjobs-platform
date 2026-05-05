@@ -72,7 +72,7 @@ export const AppsPanel = () => {
         ))}
       </div>
 
-      <div style={{ marginTop: '32px', padding: '24px', background: 'rgba(200, 241, 53, .05)', border: '1px dashed rgba(200, 241, 53, .2)', borderRadius: 'var(--r)', textAlign: 'center' }}>
+      <div style={{ marginTop: '32px', padding: '24px', background: 'rgba(0, 82, 255, .05)', border: '1px dashed rgba(0, 82, 255, .2)', borderRadius: 'var(--r)', textAlign: 'center' }}>
         <h4 style={{ fontSize: '14px', marginBottom: '4px' }}>Want to automate this?</h4>
         <p style={{ fontSize: '12px', color: 'var(--txt2)', marginBottom: '14px' }}>Our AI Agent can automatically track your applications if you use "Quick Apply".</p>
         <button className="btn-secondary" style={{ fontSize: '12px' }}>Learn More</button>

@@ -58,9 +58,9 @@ export const ProfilePanel = () => {
       <div className="profile-layout" style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '24px' }}>
         <div className="profile-sidebar">
           <div className="profile-card" style={{ 
-            background: 'rgba(255,255,255,0.02)',
+            background: 'rgba(0,0,0,0.02)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.05)',
+            border: '1px solid rgba(0,0,0, 0.05)',
             borderRadius: 'var(--r)',
             padding: '28px',
             textAlign: 'center'
@@ -92,8 +92,8 @@ export const ProfilePanel = () => {
         </div>
 
         <div className="profile-main">
-          <div className="settings-block" style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(20px)', borderRadius: 'var(--r2)', border: '1px solid rgba(255,255,255,0.05)', marginBottom: '20px' }}>
-            <div style={{ padding: 18, borderBottom: '1px solid rgba(255,255,255,0.05)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="settings-block" style={{ background: 'rgba(0,0,0,0.02)', backdropFilter: 'blur(20px)', borderRadius: 'var(--r2)', border: '1px solid rgba(0,0,0,0.05)', marginBottom: '20px' }}>
+            <div style={{ padding: 18, borderBottom: '1px solid rgba(0,0,0,0.05)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
               <Zap size={14} color="var(--acc)" /> Job Preferences
             </div>
             <div style={{ padding: 18 }}>
@@ -112,8 +112,8 @@ export const ProfilePanel = () => {
             </div>
           </div>
 
-          <div className="settings-block" style={{ background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(20px)', borderRadius: 'var(--r2)', border: '1px solid rgba(255,255,255,0.05)', marginBottom: '20px' }}>
-            <div style={{ padding: 18, borderBottom: '1px solid rgba(255,255,255,0.05)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="settings-block" style={{ background: 'rgba(0,0,0,0.02)', backdropFilter: 'blur(20px)', borderRadius: 'var(--r2)', border: '1px solid rgba(0,0,0,0.05)', marginBottom: '20px' }}>
+            <div style={{ padding: 18, borderBottom: '1px solid rgba(0,0,0,0.05)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 8 }}>
               <Star size={14} color="var(--acc4)" /> Skills & Expertise
             </div>
             <div style={{ padding: 18, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -122,13 +122,13 @@ export const ProfilePanel = () => {
               ))}
             </div>
           </div>
-          <div className="settings-block" style={{ gridColumn: 'span 2', background: 'rgba(255,255,255,0.02)', backdropFilter: 'blur(20px)', borderRadius: 'var(--r2)', border: '1px solid rgba(255,255,255,0.05)', padding: 18 }}>
+          <div className="settings-block" style={{ gridColumn: 'span 2', background: 'rgba(0,0,0,0.02)', backdropFilter: 'blur(20px)', borderRadius: 'var(--r2)', border: '1px solid rgba(0,0,0,0.05)', padding: 18 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
               <h3 style={{ fontSize: 16, fontWeight: 800 }}>Resume & AI Matching</h3>
-              <div style={{ fontSize: 11, background: 'rgba(200, 241, 53, .1)', color: 'var(--acc)', padding: '4px 8px', borderRadius: 4, fontWeight: 700 }}>AI Powered</div>
+              <div style={{ fontSize: 11, background: 'rgba(0, 82, 255, .1)', color: 'var(--acc)', padding: '4px 8px', borderRadius: 4, fontWeight: 700 }}>AI Powered</div>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-              <div style={{ border: '1px dashed rgba(255,255,255,0.1)', borderRadius: 'var(--r)', padding: '24px', textAlign: 'center' }}>
+              <div style={{ border: '1px dashed rgba(0,0,0,0.1)', borderRadius: 'var(--r)', padding: '24px', textAlign: 'center' }}>
                 <input 
                   type="file" 
                   ref={fileInputRef} 

@@ -29,7 +29,7 @@ export const Sidebar = () => {
           <div className="logo-mark">
             <Sparkles size={20} />
           </div>
-          <span className="logo-text">Remote<span>Hunt</span></span>
+          <span className="logo-text">Vibe<span>Jobs</span></span>
         </div>
       </div>
 
@@ -87,7 +87,7 @@ export const Sidebar = () => {
             <div className="user-av">{user.email?.substring(0, 1).toUpperCase()}</div>
             <div className="user-info">
               <div className="user-name">{user.email?.split('@')[0]}</div>
-              <div className="user-role">Member · RemoteHunt</div>
+              <div className="user-role">Member · VibeJobs</div>
             </div>
             <MoreHorizontal size={14} className="user-dots" />
           </div>

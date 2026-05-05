@@ -57,7 +57,7 @@ export const AuthPanel = () => {
             <Sparkles size={20} color="#06070D" />
           </div>
           <h2 style={{ fontFamily: 'var(--font)', fontWeight: 900, fontSize: '24px' }}>
-            {isLogin ? 'Welcome Back' : 'Join RemoteHunt'}
+            {isLogin ? 'Welcome Back' : 'Join VibeJobs'}
           </h2>
           <p style={{ color: 'var(--txt2)', fontSize: '13px', marginTop: '4px' }}>
             {isLogin ? 'Sign in to sync your saved jobs' : 'Start your remote career today'}

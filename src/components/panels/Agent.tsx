@@ -52,7 +52,7 @@ export const AgentPanel = () => {
             <Bot size={18} color="#06070D" />
           </div>
           <div>
-            <h3 style={{ fontSize: 14, fontWeight: 700 }}>RemoteHunt AI Agent</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 700 }}>VibeJobs AI Agent</h3>
             <p style={{ fontSize: 11, color: 'var(--txt2)' }}>Powered by GPT-4o · Scanning 50+ platforms</p>
           </div>
         </div>

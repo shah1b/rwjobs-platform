@@ -4,7 +4,7 @@ import { useStore } from '../store/useStore';
 
 const steps = [
   {
-    title: "Welcome to RemoteHunt",
+    title: "Welcome to VibeJobs",
     desc: "Your gateway to high-paying international remote roles, optimized for the Bangladeshi timezone (GMT+6).",
     icon: <Globe size={48} color="var(--acc)" />,
     features: ["Global Opportunities", "USD & BDT Salary Tracking", "Top-tier Companies"]

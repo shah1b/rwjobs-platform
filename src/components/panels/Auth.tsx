@@ -80,7 +80,7 @@ export const AuthPanel = () => {
           >
             ← Back
           </button>
-          <div className="logo-mark" style={{ margin: '0 auto 16px', width: '48px', height: '48px', background: 'var(--blue)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyCenter: 'center' }}>
+          <div className="logo-mark" style={{ margin: '0 auto 16px', width: '48px', height: '48px', background: 'var(--blue)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Sparkles size={24} color="#FFF" />
           </div>
           <h2 style={{ fontFamily: 'var(--font)', fontWeight: 800, fontSize: '28px', letterSpacing: '-0.5px' }}>

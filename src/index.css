@@ -781,6 +781,27 @@ tbody tr:hover { background: var(--bg-hover); }
   transform: translateY(-2px);
 }
 
+.btn-v-secondary-lg {
+  background: var(--bg-card);
+  color: var(--txt);
+  padding: 16px 32px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-v-secondary-lg:hover {
+  background: var(--bg-hover);
+  transform: translateY(-2px);
+}
+
 .v-features {
   padding: 120px 0;
   background: var(--bg-card);

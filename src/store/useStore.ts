@@ -33,6 +33,7 @@ interface AppState {
   searchQuery: string;
   selectedJobId: number | string | null;
   user: any | null;
+  authMode: 'login' | 'signup';
   
   setJobs: (jobs: Job[]) => void;
   toggleSave: (id: number | string) => void;
@@ -41,6 +42,7 @@ interface AppState {
   setSearchQuery: (query: string) => void;
   setSelectedJob: (id: number | string | null) => void;
   setUser: (user: any) => void;
+  setAuthMode: (mode: 'login' | 'signup') => void;
   hasSeenOnboarding: boolean;
   completeOnboarding: () => void;
 }
@@ -55,6 +57,7 @@ export const useStore = create<AppState>()(
       searchQuery: '',
       selectedJobId: null,
       user: null,
+      authMode: 'login',
 
       setJobs: (jobs) => set({ jobs, isLoading: false }),
       
@@ -77,6 +80,7 @@ export const useStore = create<AppState>()(
       setSelectedJob: (id) => set({ selectedJobId: id }),
 
       setUser: (user) => set({ user }),
+      setAuthMode: (mode) => set({ authMode: mode }),
       hasSeenOnboarding: false,
       completeOnboarding: () => set({ hasSeenOnboarding: true }),
     }),

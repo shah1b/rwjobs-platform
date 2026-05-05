@@ -41,12 +41,18 @@ function App() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       const user = session?.user ?? null;
       setUser(user);
+      if (!user && currentPanel !== 'auth' && currentPanel !== 'landing') {
+        setPanel('landing');
+      }
     });
 
     // 2. Auth Listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       const user = session?.user ?? null;
       setUser(user);
+      if (!user && _event === 'SIGNED_OUT') {
+        setPanel('landing');
+      }
     });
 
     return () => subscription.unsubscribe();

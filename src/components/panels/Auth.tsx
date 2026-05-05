@@ -4,12 +4,16 @@ import { LogIn, UserPlus, Mail, Lock, Loader2, Sparkles } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 
 export const AuthPanel = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const { setPanel, authMode, setAuthMode } = useStore();
+  const [isLogin, setIsLogin] = useState(authMode === 'login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { setPanel } = useStore();
+
+  React.useEffect(() => {
+    setIsLogin(authMode === 'login');
+  }, [authMode]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,7 +158,11 @@ export const AuthPanel = () => {
             {isLogin ? "Don't have an account?" : "Already have an account?"}
           </span>
           <button 
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={() => {
+              const newMode = isLogin ? 'signup' : 'login';
+              setIsLogin(!isLogin);
+              setAuthMode(newMode);
+            }}
             style={{ 
               background: 'none', 
               border: 'none', 

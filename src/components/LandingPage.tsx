@@ -3,7 +3,7 @@ import { Bot, Globe, ArrowRight, Zap, ShieldCheck, Cpu, Star } from 'lucide-reac
 import { useStore } from '../store/useStore';
 
 export const LandingPage = () => {
-  const { setPanel, user } = useStore();
+  const { setPanel, setAuthMode, user } = useStore();
 
   return (
     <div className="vibe-landing">
@@ -20,7 +20,7 @@ export const LandingPage = () => {
             {user ? (
               <button className="btn-v-primary-sm" onClick={() => setPanel('browse')}>Enter App</button>
             ) : (
-              <button className="btn-v-primary-sm" onClick={() => setPanel('auth')}>Sign In</button>
+              <button className="btn-v-primary-sm" onClick={() => { setAuthMode('login'); setPanel('auth'); }}>Sign In</button>
             )}
           </div>
         </div>
@@ -43,13 +43,23 @@ export const LandingPage = () => {
             </p>
             <div className="hero-cta-minimal">
               {user ? (
-                <button className="btn-v-primary-lg" onClick={() => setPanel('home')}>
-                  Go to Dashboard <ArrowRight size={20} />
-                </button>
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                  <button className="btn-v-primary-lg" onClick={() => setPanel('home')}>
+                    Go to Dashboard <ArrowRight size={20} />
+                  </button>
+                  <button className="btn-v-secondary-lg" onClick={() => setPanel('landing')}>
+                    Explore Landing
+                  </button>
+                </div>
               ) : (
-                <button className="btn-v-primary-lg" onClick={() => setPanel('auth')}>
-                  Start Your Journey <ArrowRight size={20} />
-                </button>
+                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                  <button className="btn-v-primary-lg" onClick={() => { setAuthMode('login'); setPanel('auth'); }}>
+                    Start Your Journey <ArrowRight size={20} />
+                  </button>
+                  <button className="btn-v-secondary-lg" onClick={() => { setAuthMode('signup'); setPanel('auth'); }}>
+                    SignUp
+                  </button>
+                </div>
               )}
               <div className="trust-minimal">
                 <span className="trust-number">1.2k+</span>

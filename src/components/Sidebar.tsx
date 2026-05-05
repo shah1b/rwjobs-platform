@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   LayoutDashboard, Search, Sparkles, Bookmark, 
   FileText, Bell, User, Settings, Command,
-  ChevronDown, ChevronUp, MoreHorizontal
+  ChevronDown, ChevronUp, MoreHorizontal, Home
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
@@ -10,6 +10,7 @@ export const Sidebar = () => {
   const { currentPanel, setPanel, user } = useStore();
 
   const navItems = [
+    { id: 'landing', label: 'Public Home', icon: Home },
     { id: 'home', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'browse', label: 'Browse Jobs', icon: Search, badge: '247' },
     { id: 'agent', label: 'AI Agent', icon: Sparkles, badge: 'New', badgeColor: 'blue' },

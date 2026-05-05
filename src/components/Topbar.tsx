@@ -3,7 +3,7 @@ import { Search, Bell, User, Sun, Moon, ChevronRight } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
 export const Topbar = () => {
-  const { currentPanel, user } = useStore();
+  const { currentPanel, setPanel, user } = useStore();
 
   const titles: Record<string, string> = {
     home: 'Dashboard',
@@ -27,7 +27,7 @@ export const Topbar = () => {
   return (
     <header className="topbar">
       <div className="topbar-breadcrumb">
-        VibeJobs
+        <span onClick={() => setPanel('landing')} style={{ cursor: 'pointer' }}>VibeJobs</span>
         <ChevronRight size={14} className="topbar-sep" />
         <span>{titles[currentPanel] || 'Dashboard'}</span>
       </div>

@@ -515,7 +515,7 @@ export const LandingPage = () => {
           </div>
           <div className="lp-footer-bottom">
             <span className="lp-footer-copy">© 2026 VibeJobs, Inc. All rights reserved.</span>
-            <span className="lp-footer-tagline">Built with AI ✦ Hiring should be human</span>
+            <span className="lp-footer-tagline">Developed By shah1bHasan</span>
           </div>
         </div>
       </footer>

@@ -81,7 +81,7 @@ export const useStore = create<AppState>()(
       completeOnboarding: () => set({ hasSeenOnboarding: true }),
     }),
     {
-      name: 'remote-hunt-storage',
+      name: 'vibejobs-storage-v2',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         savedJobs: Array.from(state.savedJobs),

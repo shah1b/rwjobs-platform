@@ -123,7 +123,7 @@ function App() {
 
   if (currentPanel === 'landing') {
     return (
-      <div className="app-container">
+      <div className="app-container landing-mode">
         <LandingPage />
         <Modal />
       </div>

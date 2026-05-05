@@ -58,7 +58,7 @@ export const AuthPanel = () => {
         border: '1px solid var(--border)', 
         borderRadius: 'var(--r-xl)', 
         padding: '40px',
-        boxShadow: var(--shadow-lg)
+        boxShadow: 'var(--shadow-lg)'
       }}>
         <div style={{ textAlign: 'center', marginBottom: '32px', position: 'relative' }}>
           <button 

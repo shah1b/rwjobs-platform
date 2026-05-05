@@ -132,9 +132,6 @@ function App() {
 
   return (
     <div className="app-container">
-      <div className="bg-noise" />
-      <div className="radial-glow top-right" />
-      <div className="radial-glow bottom-left" />
       {!hasSeenOnboarding && <Onboarding />}
       <Sidebar />
       <main className="main">

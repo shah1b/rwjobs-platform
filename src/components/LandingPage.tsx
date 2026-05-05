@@ -80,8 +80,8 @@ export const LandingPage = () => {
             <span className="hero-badge-dot"></span>
             AI-Powered Job Matching — Now in Beta
           </div>
-          <h1 className="hero-h">
-            Your dream job,<br /><em>found for you.</em>
+          <h1 className="hero-h" style={{ fontFamily: "'Nourd', var(--font)", fontWeight: 900, lineHeight: 1.1 }}>
+            Stop hunting.<br /><em>Start matching.</em>
           </h1>
           <p className="hero-sub">
             Upload your CV and our AI agents match you with the best roles, analyze skill gaps, and write personalized cover letters — in under 60 seconds.

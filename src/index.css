@@ -5,10 +5,10 @@
   --bg3: #F4F4F5;
   --bg4: #E4E4E7;
   --bg5: #D4D4D8;
-  --acc: #000000;
-  --acc2: #27272A;
-  --acc3: #52525B;
-  --acc4: #000000;
+  --acc: #0052FF;
+  --acc2: #3B82F6;
+  --acc3: #DBEAFE;
+  --acc4: #0041CC;
   --txt: #09090B;
   --txt2: #52525B;
   --txt3: #A1A1AA;
@@ -20,8 +20,8 @@
   --r4: 4px;
   --font: 'Cabinet Grotesk', system-ui, sans-serif;
   --body: 'Instrument Sans', system-ui, sans-serif;
-  --shadow: 0 4px 24px rgba(0, 0, 0, .04);
-  --shadow2: 0 2px 12px rgba(0, 0, 0, .02);
+  --shadow: 0 4px 24px rgba(0, 82, 255, .04);
+  --shadow2: 0 2px 12px rgba(0, 82, 255, .02);
 }
 
 * {
@@ -141,18 +141,20 @@ body {
 
 /* Real logo image — sidebar */
 .sidebar-logo-img {
-  height: 36px;
+  height: 42px;
   width: auto;
   object-fit: contain;
-  border-radius: 8px;
 }
 
 /* Real logo image — landing nav & footer */
 .nav-logo-img {
-  height: 32px;
+  height: 38px;
   width: auto;
   object-fit: contain;
-  border-radius: 6px;
+  transition: transform 0.3s;
+}
+.nav-logo-img:hover {
+  transform: scale(1.05);
 }
 
 .sidebar-nav {
@@ -956,8 +958,10 @@ body {
   margin-bottom: 24px;
 }
 
-.text-muted {
-  color: var(--txt3);
+.text-vibe {
+  background: linear-gradient(135deg, var(--acc), var(--acc2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-subtitle {

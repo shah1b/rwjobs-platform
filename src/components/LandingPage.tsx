@@ -11,8 +11,7 @@ export const LandingPage = () => {
       <nav className="v-nav">
         <div className="container v-nav-inner">
           <div className="logo-group" onClick={() => setPanel('home')}>
-            <div className="logo-icon">VJ</div>
-            <span className="logo-text">Vibe<span>Jobs</span></span>
+            <img src="/Logo- VJ.png" alt="VibeJobs" className="nav-logo-img" />
           </div>
           
           <div className="nav-actions">
@@ -37,7 +36,7 @@ export const LandingPage = () => {
             </div>
             <h1 className="hero-title">
               Elevate your career.<br />
-              <span className="text-muted">Work globally from Bangladesh.</span>
+              <span className="text-vibe">Work globally from Bangladesh.</span>
             </h1>
             <p className="hero-subtitle">
               VibeJobs leverages deep-learning AI to match elite Bangladeshi talent with premium remote USD opportunities. Minimal noise. Maximum impact.
@@ -123,8 +122,7 @@ export const LandingPage = () => {
       <footer className="v-footer">
         <div className="container v-footer-inner">
           <div className="logo-group">
-            <div className="logo-icon-sm">VJ</div>
-            <span className="logo-text-sm">VibeJobs</span>
+            <img src="/Logo- VJ.png" alt="VibeJobs" className="nav-logo-img" />
           </div>
           <div className="footer-links">
             <a href="#">Privacy</a>

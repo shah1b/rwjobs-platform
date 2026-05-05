@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bookmark, Sparkles } from 'lucide-react';
+import { Bookmark, ExternalLink } from 'lucide-react';
 import { type Job, useStore } from '../store/useStore';
 
 interface JobCardProps {
@@ -10,67 +10,84 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
   const { savedJobs, toggleSave, setSelectedJob } = useStore();
   const isSaved = savedJobs.has(job.id);
 
+  const bdtValue = (parseInt(job.salary.replace(/[^0-9]/g, '')) * 120);
+  const bdtLabel = bdtValue > 10000000 ? `৳${(bdtValue/10000000).toFixed(2)}Cr` : `৳${(bdtValue/100000).toFixed(0)}L`;
+
   return (
     <div 
-      className={`job-card ${job.featured ? 'featured' : ''}`}
+      className={`card fade-up`}
+      style={{ marginBottom: '16px', padding: '16px', cursor: 'pointer', transition: 'box-shadow 0.2s' }}
       onClick={() => setSelectedJob(job.id)}
     >
-      <div className="jc-top">
-        <div 
-          className="co-logo" 
-          style={{ background: job.logoColor, color: job.logoText }}
-        >
-          {job.logo}
-        </div>
-        <div className="jc-info">
-          <div className="jc-title">{job.title}</div>
-          <div className="jc-company">
-            {job.company} · <span style={{ color: 'var(--acc2)', fontSize: '11px' }}>{job.source}</span>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div className="td-co">
+          <div 
+            className="co-av" 
+            style={{ 
+              background: job.logoColor, 
+              color: job.logoText,
+              width: '40px',
+              height: '40px',
+              borderRadius: 'var(--r-md)',
+              fontSize: '12px'
+            }}
+          >
+            {job.logo}
+          </div>
+          <div>
+            <div className="td-title" style={{ fontSize: '15px' }}>{job.title}</div>
+            <div className="td-co-name">{job.company} · {job.location}</div>
           </div>
         </div>
-        <div className="jc-meta">
-          <div className="match-pill">{job.match}% match</div>
-          {job.featured && <div className="feat-pill">Featured</div>}
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <span className="badge badge-green"><span className="badge-dot"></span>{job.match}% match</span>
+          {job.featured && <span className="badge badge-blue">Featured</span>}
         </div>
       </div>
-      
-      <div className="jc-tags">
-        {job.tags.map((tag, i) => (
-          <span key={i} className={`tag ${i === job.tags.length - 1 ? 'remote' : ''}`}>
-            {tag}
-          </span>
+
+      <div style={{ display: 'flex', gap: '6px', margin: '12px 0' }}>
+        {job.tags.slice(0, 4).map((tag, i) => (
+          <span key={i} className="badge badge-outline">{tag}</span>
         ))}
       </div>
 
-      <div className="jc-bottom">
-        <div>
-          <div className="jc-salary">
-            {job.salary}/yr 
-            <span style={{ color: 'var(--txt3)', fontSize: '11px', marginLeft: 6, fontWeight: 500 }}>
-              (≈ ৳{(parseInt(job.salary.replace(/[^0-9]/g, '')) * 120 / 1000).toFixed(0)}k BDT)
-            </span>
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        paddingTop: '12px',
+        borderTop: '1px solid var(--border)',
+        marginTop: '12px'
+      }}>
+        <div style={{ display: 'flex', gap: '16px' }}>
+          <div>
+            <div className="salary">{job.salary}</div>
+            <div className="bdt" style={{ marginTop: '2px' }}>≈ {bdtLabel} BDT</div>
           </div>
-          <div className="jc-posted">Posted {job.posted}</div>
+          <div style={{ fontSize: '12px', color: 'var(--txt-3)', alignSelf: 'center' }}>
+            Posted {job.posted}
+          </div>
         </div>
-        <div className="jc-actions">
+        
+        <div style={{ display: 'flex', gap: '8px' }}>
           <button 
-            className={`save-btn ${isSaved ? 'saved' : ''}`}
+            className="tb-icon-btn"
+            style={{ width: '32px', height: '32px' }}
             onClick={(e) => {
               e.stopPropagation();
               toggleSave(job.id);
             }}
           >
-            <Bookmark size={14} fill={isSaved ? 'currentColor' : 'none'} />
+            <Bookmark size={14} fill={isSaved ? 'currentColor' : 'none'} style={{ color: isSaved ? 'var(--blue)' : 'var(--txt-2)' }} />
           </button>
           <button 
-            className="apply-quick"
+            className="btn btn-primary btn-sm"
             onClick={(e) => {
               e.stopPropagation();
-              // In a real app, this would redirect or open a form
               window.open('https://remotive.com', '_blank');
             }}
           >
-            Apply
+            Apply <ExternalLink size={12} />
           </button>
         </div>
       </div>

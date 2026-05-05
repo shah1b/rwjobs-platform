@@ -47,7 +47,9 @@ export const LandingPage = () => {
         <div className="lp-nav-inner">
           <a className="lp-logo" onClick={() => user ? setPanel('home') : null}>
             <div className="lp-logo-mark">⚡</div>
-            <span className="lp-logo-text">VibeJobs</span>
+            <span className="lp-logo-text" style={{ fontWeight: 300 }}>
+              <span style={{ fontWeight: 800 }}>Vibe</span>Jobs
+            </span>
           </a>
           <div className="lp-nav-links">
             <button className="lp-nav-btn" onClick={handleNavJobs}>Jobs</button>
@@ -479,7 +481,9 @@ export const LandingPage = () => {
             <div>
               <div className="lp-logo" style={{ marginBottom: '10px' }} onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
                 <div className="lp-logo-mark">⚡</div>
-                <span className="lp-logo-text">VibeJobs</span>
+                <span className="lp-logo-text" style={{ fontWeight: 300 }}>
+                  <span style={{ fontWeight: 800 }}>Vibe</span>Jobs
+                </span>
               </div>
               <p className="lp-footer-brand-desc">AI-powered job matching that puts the right roles in front of the right people — fast, fair, and frictionless.</p>
               <div style={{ display: 'flex', gap: '10px', marginTop: '18px' }}>

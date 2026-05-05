@@ -27,7 +27,9 @@ export const Topbar = () => {
   return (
     <header className="topbar" style={{ padding: '0 24px', height: '64px' }}>
       <div className="topbar-breadcrumb" style={{ fontSize: '14px', gap: '8px' }}>
-        <span onClick={() => setPanel('landing')} style={{ cursor: 'pointer', color: 'var(--txt-3)', fontWeight: 500 }}>VibeJobs</span>
+        <span onClick={() => setPanel('landing')} style={{ cursor: 'pointer', color: 'var(--txt-3)', fontWeight: 300 }}>
+          <span style={{ fontWeight: 800 }}>Vibe</span>Jobs
+        </span>
         <ChevronRight size={14} className="topbar-sep" style={{ opacity: 0.4 }} />
         <span style={{ fontWeight: 600 }}>{titles[currentPanel] || 'Dashboard'}</span>
       </div>

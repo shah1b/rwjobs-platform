@@ -104,7 +104,8 @@ function App() {
             benefits: "Please see the full description for benefits.",
             location: job.candidate_required_location || "Remote",
             experience: "See description",
-            type: (job.job_type || '').replace('_', ' ') || 'Full-time'
+            type: (job.job_type || '').replace('_', ' ') || 'Full-time',
+            url: job.url
           };
         });
         setJobs(mappedJobs);

@@ -87,7 +87,11 @@ export const Modal = () => {
           <button className="btn-secondary" style={{ flex: '0 0 auto' }}>
             <Share2 size={16} />
           </button>
-          <button className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>
+          <button 
+            className="btn-primary" 
+            style={{ flex: 1, justifyContent: 'center' }}
+            onClick={() => window.open(job.url, '_blank')}
+          >
             Apply for this position
             <ExternalLink size={16} />
           </button>

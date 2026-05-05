@@ -23,6 +23,7 @@ export type Job = {
   location: string;
   experience: string;
   type: string;
+  url: string;
 };
 
 interface AppState {
@@ -52,6 +53,8 @@ interface AppState {
   setResumeData: (data: any) => void;
   hasSeenOnboarding: boolean;
   completeOnboarding: () => void;
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
 }
 
 export const useStore = create<AppState>()(
@@ -66,6 +69,7 @@ export const useStore = create<AppState>()(
       user: null,
       authMode: 'login',
       resumeData: null,
+      sidebarOpen: false,
 
       setJobs: (jobs) => set({ jobs, isLoading: false }),
       
@@ -79,7 +83,7 @@ export const useStore = create<AppState>()(
         return { savedJobs: newSaved };
       }),
 
-      setPanel: (panel) => set({ currentPanel: panel }),
+      setPanel: (panel) => set({ currentPanel: panel, sidebarOpen: false }),
       
       setLoading: (loading) => set({ isLoading: loading }),
       
@@ -92,6 +96,7 @@ export const useStore = create<AppState>()(
       setResumeData: (data) => set({ resumeData: data }),
       hasSeenOnboarding: false,
       completeOnboarding: () => set({ hasSeenOnboarding: true }),
+      setSidebarOpen: (open) => set({ sidebarOpen: open }),
     }),
     {
       name: 'vibejobs-storage-v2',

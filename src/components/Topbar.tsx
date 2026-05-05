@@ -1,9 +1,9 @@
 import React from 'react';
-import { Search, Bell, User, Sun, Moon, ChevronRight } from 'lucide-react';
+import { Search, Bell, User, Sun, Moon, ChevronRight, Menu } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
 export const Topbar = () => {
-  const { currentPanel, setPanel, user } = useStore();
+  const { currentPanel, setPanel, user, setSidebarOpen } = useStore();
 
   const titles: Record<string, string> = {
     home: 'Dashboard',
@@ -27,7 +27,14 @@ export const Topbar = () => {
   return (
     <header className="topbar" style={{ padding: '0 24px', height: '64px' }}>
       <div className="topbar-breadcrumb" style={{ fontSize: '14px', gap: '8px' }}>
-        <span onClick={() => setPanel('landing')} style={{ cursor: 'pointer', color: 'var(--txt-3)', fontWeight: 300 }}>
+        <button 
+          className="mobile-menu-btn" 
+          onClick={() => setSidebarOpen(true)}
+          style={{ marginRight: '8px' }}
+        >
+          <Menu size={20} />
+        </button>
+        <span onClick={() => setPanel('landing')} style={{ cursor: 'pointer', color: 'var(--txt-3)', fontWeight: 300 }} className="breadcrumb-brand">
           <span style={{ fontWeight: 800 }}>Vibe</span>Jobs
         </span>
         <ChevronRight size={14} className="topbar-sep" style={{ opacity: 0.4 }} />
@@ -40,7 +47,7 @@ export const Topbar = () => {
         <span className="tb-date" style={{ fontSize: '13px', padding: '6px 12px', background: 'var(--bg-muted)', border: 'none', color: 'var(--txt-2)' }}>{today}</span>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button className="tb-icon-btn" title="Command Palette ⌘K" style={{ width: '36px', height: '36px' }}>
+          <button className="tb-icon-btn tb-hide-mobile" title="Command Palette ⌘K" style={{ width: '36px', height: '36px' }}>
             <Search size={16} />
           </button>
           

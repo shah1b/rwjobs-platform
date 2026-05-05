@@ -1,9 +1,9 @@
 import React from 'react';
-import { FileText, Clock, CheckCircle, XCircle, ExternalLink, MoreVertical } from 'lucide-react';
+import { FileText, Clock, CheckCircle, XCircle, ExternalLink, MoreVertical, Plus } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 
 export const AppsPanel = () => {
-  const { user } = useStore();
+  const { user, setPanel } = useStore();
 
   const dummyApps = [
     { id: 1, title: 'Senior Brand Designer', company: 'Linear', status: 'interviewing', date: 'May 2, 2024', logo: 'LI', color: '#000' },
@@ -13,69 +13,90 @@ export const AppsPanel = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'applied': return 'var(--txt3)';
-      case 'interviewing': return 'var(--acc2)';
-      case 'offer': return 'var(--acc)';
-      case 'rejected': return 'var(--acc3)';
-      default: return 'var(--txt2)';
+      case 'applied': return 'var(--blue)';
+      case 'interviewing': return 'var(--amber)';
+      case 'offer': return 'var(--green)';
+      case 'rejected': return 'var(--red)';
+      default: return 'var(--txt-2)';
     }
   };
 
   if (!user) {
     return (
-      <div className="panel" style={{ textAlign: 'center', paddingTop: '100px' }}>
-        <div className="empty-icon" style={{ margin: '0 auto 20px' }}>
-          <FileText size={48} color="var(--txt3)" />
+      <div className="panel" style={{ textAlign: 'center', paddingTop: '100px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ background: 'var(--bg-muted)', padding: '32px', borderRadius: '50%', marginBottom: '24px' }}>
+          <FileText size={48} color="var(--txt-3)" />
         </div>
-        <h2>Track your applications</h2>
-        <p style={{ color: 'var(--txt2)', marginBottom: '20px' }}>Sign in to start tracking your remote job applications and interview status.</p>
-        <button className="btn-primary">Sign In to Continue</button>
+        <h2 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '12px' }}>Track your applications</h2>
+        <p style={{ color: 'var(--txt-2)', marginBottom: '32px', maxWidth: '360px' }}>Sign in to start tracking your remote job applications and interview status.</p>
+        <button className="btn btn-primary" onClick={() => setPanel('auth')}>Sign In to Continue</button>
       </div>
     );
   }
 
   return (
-    <div className="panel">
-      <div className="section-hdr">
-        <span className="section-title">My Applications</span>
-        <span className="result-count">{dummyApps.length} total</span>
+    <div className="panel fade-up">
+      <div className="page-head" style={{ marginBottom: '32px' }}>
+        <div>
+          <h1 className="page-title">My Applications</h1>
+          <p className="page-sub">Track and manage your ongoing job applications</p>
+        </div>
+        <button className="btn btn-primary btn-sm" onClick={() => setPanel('browse')}>
+          <Plus size={14} />
+          Find New Jobs
+        </button>
       </div>
 
-      <div className="apps-grid" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <div className="apps-grid" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {dummyApps.map((app) => (
-          <div key={app.id} className="job-card" style={{ cursor: 'default' }}>
-            <div className="jc-top" style={{ marginBottom: 0 }}>
-              <div className="co-logo" style={{ background: app.color, color: '#fff' }}>{app.logo}</div>
-              <div className="jc-info" style={{ flex: 1 }}>
-                <div className="jc-title">{app.title}</div>
-                <div className="jc-company">{app.company} · Applied on {app.date}</div>
+          <div key={app.id} className="card" style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div className="co-av" style={{ background: app.color, color: '#fff', width: '44px', height: '44px', borderRadius: '10px', fontSize: '14px' }}>
+                {app.logo}
               </div>
-              <div style={{ textAlign: 'right' }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '15px', fontWeight: 700, color: 'var(--txt)' }}>{app.title}</div>
+                <div style={{ fontSize: '13px', color: 'var(--txt-2)', marginTop: '2px' }}>
+                  {app.company} · <span style={{ color: 'var(--txt-3)' }}>Applied {app.date}</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{ 
                   fontSize: '11px', 
-                  fontWeight: 800, 
+                  fontWeight: 700, 
                   textTransform: 'uppercase', 
                   color: getStatusColor(app.status),
                   background: `${getStatusColor(app.status)}15`,
-                  padding: '4px 10px',
-                  borderRadius: '50px',
-                  display: 'inline-block'
+                  padding: '4px 12px',
+                  borderRadius: '99px',
+                  letterSpacing: '0.02em',
+                  border: `1px solid ${getStatusColor(app.status)}30`
                 }}>
                   {app.status}
                 </div>
+                <button className="row-menu-btn" onClick={() => alert(`Managing application for ${app.title}`)}>
+                  <MoreVertical size={16} />
+                </button>
               </div>
-              <button className="icon-btn" style={{ border: 'none', background: 'transparent' }}>
-                <MoreVertical size={16} />
-              </button>
             </div>
           </div>
         ))}
       </div>
 
-      <div style={{ marginTop: '32px', padding: '24px', background: 'rgba(0, 82, 255, .05)', border: '1px dashed rgba(0, 82, 255, .2)', borderRadius: 'var(--r)', textAlign: 'center' }}>
-        <h4 style={{ fontSize: '14px', marginBottom: '4px' }}>Want to automate this?</h4>
-        <p style={{ fontSize: '12px', color: 'var(--txt2)', marginBottom: '14px' }}>Our AI Agent can automatically track your applications if you use "Quick Apply".</p>
-        <button className="btn-secondary" style={{ fontSize: '12px' }}>Learn More</button>
+      <div style={{ 
+        marginTop: '40px', 
+        padding: '32px', 
+        background: 'var(--blue-light)', 
+        border: '1px dashed var(--blue)', 
+        borderRadius: 'var(--r-xl)', 
+        textAlign: 'center' 
+      }}>
+        <div style={{ background: '#fff', width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justify-content: 'center', margin: '0 auto 16px', boxShadow: 'var(--shadow-sm)' }}>
+          <Sparkles size={20} color="var(--blue)" />
+        </div>
+        <h4 style={{ fontSize: '16px', fontWeight: 800, marginBottom: '8px' }}>Want to automate this?</h4>
+        <p style={{ fontSize: '14px', color: 'var(--txt-2)', marginBottom: '24px', maxWidth: '400px', margin: '0 auto 24px' }}>Our AI Agent can automatically track your applications and follow up with recruiters.</p>
+        <button className="btn btn-secondary" onClick={() => setPanel('agent')}>Explore AI Agent</button>
       </div>
     </div>
   );

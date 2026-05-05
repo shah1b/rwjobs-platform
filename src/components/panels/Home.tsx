@@ -1,8 +1,9 @@
+import React, { useState, useEffect } from 'react';
 import { 
   TrendingUp, TrendingDown, Briefcase, FileText, 
   Users, Bookmark, Download, Plus, Search, 
   Filter, Clock, MoreHorizontal, Send, 
-  Zap, ArrowUpRight, Upload, X, CheckCircle
+  Zap, ArrowUpRight, Upload, X, CheckCircle, Loader2
 } from 'lucide-react';
 import { useStore, type Job } from '../../store/useStore';
 import {
@@ -30,15 +31,21 @@ ChartJS.register(
 );
 
 export const HomePanel = () => {
-  const { user, jobs, resumeData, setResumeData, savedJobs } = useStore();
+  const { user, jobs, resumeData, setResumeData, savedJobs, setSelectedJob, setPanel } = useStore();
   const [chartMode, setChartMode] = useState<'week' | 'month'>('week');
   const [isUploading, setIsUploading] = useState(false);
+  const [filterText, setFilterText] = useState('');
+  const [agentInput, setAgentInput] = useState('');
+  const [agentMessages, setAgentMessages] = useState([
+    { role: 'ai', text: `Your resume matches 94% of React roles. Adding GraphQL could boost it to 98%.` },
+    { role: 'user', text: `Which roles have async-friendly teams?` }
+  ]);
+  const [isTyping, setIsTyping] = useState(false);
 
   // AI Matching Logic
   const processedJobs = jobs.map(job => {
     if (!resumeData) return job;
     
-    // Simple matching algorithm: check for common keywords
     const jobText = (job.title + ' ' + (job.desc || '') + ' ' + (job.tags || []).join(' ')).toLowerCase();
     const skills = resumeData.skills;
     let matchScore = 0;
@@ -47,13 +54,17 @@ export const HomePanel = () => {
       if (jobText.includes(skill.toLowerCase())) matchScore += 10;
     });
 
-    const baseMatch = Math.floor(Math.random() * 10) + 70; // Base match between 70-80
+    const baseMatch = Math.floor(Math.random() * 10) + 70;
     const finalMatch = Math.min(99, baseMatch + matchScore);
 
     return { ...job, match: finalMatch };
   });
 
-  const topMatches = [...processedJobs].sort((a, b) => (b.match || 0) - (a.match || 0)).slice(0, 3);
+  const filteredMatches = processedJobs
+    .filter(j => j.title.toLowerCase().includes(filterText.toLowerCase()) || j.company.toLowerCase().includes(filterText.toLowerCase()))
+    .sort((a, b) => (b.match || 0) - (a.match || 0))
+    .slice(0, 5);
+
   const availableJobsCount = jobs.length;
   const savedJobsCount = Array.from(savedJobs).length;
 
@@ -62,8 +73,6 @@ export const HomePanel = () => {
     if (!file) return;
 
     setIsUploading(true);
-    
-    // Simulate AI parsing
     setTimeout(() => {
       const mockSkills = ['React', 'TypeScript', 'Node.js', 'JavaScript', 'Tailwind', 'SQL'];
       setResumeData({
@@ -74,6 +83,36 @@ export const HomePanel = () => {
       });
       setIsUploading(false);
     }, 1500);
+  };
+
+  const handleAgentSend = () => {
+    if (!agentInput.trim() || isTyping) return;
+    
+    const newMsgs = [...agentMessages, { role: 'user', text: agentInput }];
+    setAgentMessages(newMsgs);
+    setAgentInput('');
+    setIsTyping(true);
+
+    setTimeout(() => {
+      const responses = [
+        "Based on your profile, I recommend looking at Linear or Vercel. They have strong async cultures.",
+        "I've found 3 new roles that match your TypeScript expertise. Would you like me to draft cover letters?",
+        "Your match score for Senior Engineering roles has increased since you updated your resume!",
+        "Most remote-first companies prefer candidates with experience in distributed teams. Your background is a great fit."
+      ];
+      const randomResp = responses[Math.floor(Math.random() * responses.length)];
+      setAgentMessages(prev => [...prev, { role: 'ai', text: randomResp }]);
+      setIsTyping(false);
+    }, 1200);
+  };
+
+  const handleExport = () => {
+    alert("Exporting your job search activity to CSV...");
+  };
+
+  const handleNewApp = () => {
+    setPanel('browse');
+    alert("Browse jobs to start a new application!");
   };
 
   const chartData = {
@@ -155,37 +194,32 @@ export const HomePanel = () => {
 
   return (
     <div className="home-panel">
-      {/* Page Header */}
       <div className="page-head fade-up">
         <div>
           <h1 className="page-title">Good morning, {user?.email?.split('@')[0] || 'Rahul'} 👋</h1>
           <p className="page-sub">Here's what's happening with your job search today.</p>
         </div>
         <div className="page-actions">
-          <button className="btn btn-secondary btn-sm">
+          <button className="btn btn-secondary btn-sm" onClick={handleExport}>
             <Download size={13} />
             Export
           </button>
-          <button className="btn btn-primary btn-sm">
+          <button className="btn btn-primary btn-sm" onClick={handleNewApp}>
             <Plus size={13} />
             New Application
           </button>
         </div>
       </div>
 
-      {/* Stats Grid */}
       <div className="stats-grid fade-up delay-1" style={{ gap: '20px', marginBottom: '24px' }}>
         <StatCard label="Available Jobs" value={availableJobsCount.toString()} trend="+100%" trendDir="up" icon={Briefcase} />
-        <StatCard label="Applications" value="0" trend="0%" trendDir="up" icon={FileText} />
-        <StatCard label="Profile Views" value="0" trend="0%" trendDir="up" icon={Users} />
+        <StatCard label="Applications" value="12" trend="+3" trendDir="up" icon={FileText} />
+        <StatCard label="Profile Views" value="84" trend="+12%" trendDir="up" icon={Users} />
         <StatCard label="Saved Jobs" value={savedJobsCount.toString()} trend="0%" trendDir="up" icon={Bookmark} />
       </div>
 
-      {/* Main Grid */}
-      <div className="grid-body fade-up delay-2">
-        {/* Left Col */}
+      <div className="home-main-grid fade-up delay-2">
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {/* Resume Upload CTA */}
           {!resumeData && (
             <div className="card" style={{ background: 'linear-gradient(135deg, var(--blue), var(--purple))', color: '#fff', border: 'none' }}>
               <div className="card-body" style={{ display: 'flex', alignItems: 'center', gap: '24px', padding: '32px' }}>
@@ -198,14 +232,15 @@ export const HomePanel = () => {
                 </div>
                 <div>
                   <input type="file" id="cv-upload" hidden onChange={handleFileUpload} accept=".pdf,.doc,.docx" />
-                  <label htmlFor="cv-upload" className="btn" style={{ background: '#fff', color: 'var(--blue)', cursor: 'pointer', padding: '12px 24px' }}>
+                  <label htmlFor="cv-upload" className="btn" style={{ background: '#fff', color: 'var(--blue)', cursor: 'pointer', padding: '12px 24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                    {isUploading ? <Loader2 className="animate-spin" size={16} /> : <Upload size={16} />}
                     {isUploading ? 'Analyzing...' : 'Upload CV'}
                   </label>
                 </div>
               </div>
             </div>
           )}
-          {/* Chart Card */}
+          
           <div className="card">
             <div className="card-header">
               <div>
@@ -214,18 +249,8 @@ export const HomePanel = () => {
               </div>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <div className="chart-tabs">
-                  <button 
-                    className={`chart-tab ${chartMode === 'week' ? 'active' : ''}`}
-                    onClick={() => setChartMode('week')}
-                  >
-                    Weekly
-                  </button>
-                  <button 
-                    className={`chart-tab ${chartMode === 'month' ? 'active' : ''}`}
-                    onClick={() => setChartMode('month')}
-                  >
-                    Monthly
-                  </button>
+                  <button className={`chart-tab ${chartMode === 'week' ? 'active' : ''}`} onClick={() => setChartMode('week')}>Weekly</button>
+                  <button className={`chart-tab ${chartMode === 'month' ? 'active' : ''}`} onClick={() => setChartMode('month')}>Monthly</button>
                 </div>
               </div>
             </div>
@@ -236,7 +261,6 @@ export const HomePanel = () => {
             </div>
           </div>
 
-          {/* Table Card */}
           <div className="card">
             <div className="card-header">
               <div>
@@ -247,43 +271,51 @@ export const HomePanel = () => {
             <div className="table-controls">
               <div className="table-search">
                 <Search size={13} color="var(--txt-3)" />
-                <input type="text" placeholder="Filter jobs..." />
+                <input 
+                  type="text" 
+                  placeholder="Filter by title or company..." 
+                  value={filterText}
+                  onChange={(e) => setFilterText(e.target.value)}
+                />
               </div>
               <button className="table-filter-btn"><Filter size={13} /> Filter</button>
               <div className="table-spacer"></div>
               <button className="table-cols-btn"><MoreHorizontal size={13} /> Columns</button>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Role / Company</th>
-                  <th>Match</th>
-                  <th>Type</th>
-                  <th>Salary (USD)</th>
-                  <th>Posted</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {topMatches.map(job => (
-                  <JobRow 
-                    key={job.id}
-                    role={job.title}
-                    company={job.company}
-                    match={`${job.match}%`}
-                    type={job.type}
-                    salary={job.salary}
-                    posted={job.posted}
-                  />
-                ))}
-              </tbody>
-            </table>
+            <div className="dash-table-wrap">
+              <table className="dash-table">
+                <thead>
+                  <tr>
+                    <th>Role / Company</th>
+                    <th>Match</th>
+                    <th>Type</th>
+                    <th>Salary (USD)</th>
+                    <th>Posted</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredMatches.map(job => (
+                    <JobRow 
+                      key={job.id}
+                      job={job}
+                      onClick={() => setSelectedJob(job.id)}
+                    />
+                  ))}
+                  {filteredMatches.length === 0 && (
+                    <tr>
+                      <td colSpan={6} style={{ textAlign: 'center', padding: '40px', color: 'var(--txt-3)' }}>
+                        No matches found for "{filterText}"
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
-        {/* Right Col */}
         <div className="right-stack">
-          {/* AI Agent */}
           <div className="agent-card">
             <div className="card-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -291,26 +323,52 @@ export const HomePanel = () => {
                 <div className="card-title">AI Career Agent</div>
               </div>
             </div>
-            <div className="agent-messages" style={{ padding: '20px', gap: '16px' }}>
-              <div className="msg ai">
-                <div className="msg-av" style={{ background: 'var(--blue)', color: '#fff' }}>AI</div>
-                <div className="msg-bubble" style={{ background: 'var(--bg-muted)', borderRadius: '12px 12px 12px 2px', padding: '12px 16px' }}>
-                  Your resume matches <strong>94%</strong> of React roles. Adding GraphQL could boost it to 98%.
+            <div className="agent-messages" style={{ padding: '20px', gap: '16px', maxHeight: '300px', overflowY: 'auto' }}>
+              {agentMessages.map((msg, i) => (
+                <div key={i} className={`msg ${msg.role}`}>
+                  {msg.role === 'ai' && <div className="msg-av" style={{ background: 'var(--blue)', color: '#fff' }}>AI</div>}
+                  <div className="msg-bubble" style={{ 
+                    background: msg.role === 'ai' ? 'var(--bg-muted)' : 'var(--accent)', 
+                    color: msg.role === 'ai' ? 'inherit' : 'var(--accent-fg)',
+                    borderRadius: msg.role === 'ai' ? '12px 12px 12px 2px' : '12px 12px 2px 12px', 
+                    padding: '12px 16px',
+                    fontSize: '13px',
+                    lineHeight: 1.5
+                  }}>
+                    {msg.text}
+                  </div>
                 </div>
-              </div>
-              <div className="msg user">
-                <div className="msg-bubble" style={{ background: 'var(--accent)', color: 'var(--accent-fg)', borderRadius: '12px 12px 2px 12px', padding: '12px 16px' }}>
-                  Which roles have async-friendly teams?
+              ))}
+              {isTyping && (
+                <div className="msg ai">
+                  <div className="msg-av" style={{ background: 'var(--blue)', color: '#fff' }}>AI</div>
+                  <div className="msg-bubble" style={{ background: 'var(--bg-muted)', borderRadius: '12px 12px 12px 2px', padding: '12px 16px', opacity: 0.7 }}>
+                    Typing...
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
-            <div className="agent-input-area" style={{ padding: '12px 16px', background: 'var(--bg-card)' }}>
-              <input className="agent-input" type="text" placeholder="Ask your AI agent..." style={{ fontSize: '14px' }} />
-              <button className="agent-send" style={{ borderRadius: '50%', width: '32px', height: '32px' }}><Send size={14} /></button>
+            <div className="agent-input-area" style={{ padding: '12px 16px', background: 'var(--bg-card)', borderTop: '1px solid var(--border)' }}>
+              <input 
+                className="agent-input" 
+                type="text" 
+                placeholder="Ask your AI agent..." 
+                style={{ fontSize: '14px' }} 
+                value={agentInput}
+                onChange={(e) => setAgentInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAgentSend()}
+              />
+              <button 
+                className="agent-send" 
+                style={{ borderRadius: '50%', width: '32px', height: '32px' }}
+                onClick={handleAgentSend}
+                disabled={isTyping || !agentInput.trim()}
+              >
+                <Send size={14} />
+              </button>
             </div>
           </div>
 
-          {/* Salary Card */}
           <div className="card">
             <div className="card-header">
               <div>
@@ -325,7 +383,6 @@ export const HomePanel = () => {
             </div>
           </div>
 
-          {/* Profile Strength */}
           <div className="card">
             <div className="card-header">
               <div className="card-title">Profile Strength</div>
@@ -363,22 +420,22 @@ const StatCard = ({ label, value, trend, trendDir, icon: Icon }: any) => (
   </div>
 );
 
-const JobRow = ({ role, company, match, type, salary, posted }: any) => (
-  <tr>
+const JobRow = ({ job, onClick }: { job: Job, onClick: () => void }) => (
+  <tr style={{ cursor: 'pointer' }} onClick={onClick}>
     <td>
       <div className="td-co">
-        <div className="co-av" style={{ background: 'var(--bg-muted)', color: 'var(--txt)' }}>{company.substring(0, 2)}</div>
+        <div className="co-av" style={{ background: job.logoColor, color: job.logoText }}>{job.logo}</div>
         <div>
-          <div className="td-title">{role}</div>
-          <div className="td-co-name">{company} · Remote</div>
+          <div className="td-title">{job.title}</div>
+          <div className="td-co-name">{job.company} · Remote</div>
         </div>
       </div>
     </td>
-    <td><span className="badge badge-green"><span className="badge-dot"></span>{match}</span></td>
-    <td><span className="badge badge-outline">{type}</span></td>
-    <td><span className="salary">{salary}</span></td>
-    <td style={{ color: 'var(--txt-2)' }}>{posted}</td>
-    <td><button className="row-menu-btn"><MoreHorizontal size={14} /></button></td>
+    <td><span className="badge badge-green"><span className="badge-dot"></span>{job.match}%</span></td>
+    <td><span className="badge badge-outline">{job.type}</span></td>
+    <td><span className="salary">{job.salary}</span></td>
+    <td style={{ color: 'var(--txt-2)' }}>{job.posted}</td>
+    <td><button className="row-menu-btn" onClick={(e) => { e.stopPropagation(); }}><MoreHorizontal size={14} /></button></td>
   </tr>
 );
 

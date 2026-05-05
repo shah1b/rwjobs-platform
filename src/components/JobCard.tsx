@@ -91,7 +91,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job }) => {
             style={{ padding: '8px 16px' }}
             onClick={(e) => {
               e.stopPropagation();
-              window.open('https://remotive.com', '_blank');
+              window.open(job.url, '_blank');
             }}
           >
             Apply <ExternalLink size={14} style={{ marginLeft: '4px' }} />

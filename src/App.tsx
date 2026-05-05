@@ -41,6 +41,13 @@ function App() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       const user = session?.user ?? null;
       setUser(user);
+      
+      // If we have a user and they are on a public panel, move them to home
+      if (user && (currentPanel === 'auth' || currentPanel === 'landing')) {
+        setPanel('home');
+      }
+      
+      // If no user and they are on a protected panel, move them to landing
       if (!user && currentPanel !== 'auth' && currentPanel !== 'landing') {
         setPanel('landing');
       }
@@ -50,7 +57,10 @@ function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       const user = session?.user ?? null;
       setUser(user);
-      if (!user && _event === 'SIGNED_OUT') {
+      
+      if (_event === 'SIGNED_IN') {
+        setPanel('home');
+      } else if (_event === 'SIGNED_OUT') {
         setPanel('landing');
       }
     });

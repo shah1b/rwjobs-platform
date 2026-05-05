@@ -30,91 +30,94 @@ export const Sidebar = () => {
   return (
     <aside className="sidebar">
       {/* Brand */}
-      <div className="sb-brand">
-        <div className="brand-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <div className="sb-brand" style={{ padding: '0 24px' }}>
+        <div className="brand-icon" style={{ width: '32px', height: '32px' }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
           </svg>
         </div>
-        <span className="brand-name">VibeJobs</span>
-        <span className="brand-badge">Pro</span>
+        <span className="brand-name" style={{ fontSize: '18px', fontWeight: 700 }}>VibeJobs</span>
+        <span className="brand-badge" style={{ padding: '2px 8px' }}>Pro</span>
       </div>
 
       {/* Search Trigger */}
-      <div className="sb-search">
-        <div className="search-inner">
-          <Search size={13} color="var(--txt-3)" />
-          <span>Search or jump to…</span>
-          <span className="search-kbd">⌘K</span>
+      <div className="sb-search" style={{ padding: '16px 12px' }}>
+        <div className="search-inner" style={{ padding: '10px 14px', background: 'var(--bg-muted)' }}>
+          <Search size={14} color="var(--txt-3)" />
+          <span style={{ fontSize: '13px' }}>Quick search...</span>
+          <span className="search-kbd" style={{ fontSize: '9px' }}>⌘K</span>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="sb-nav">
+      <nav className="sb-nav" style={{ padding: '8px 12px' }}>
         <div className="nav-group">
-          <div className="nav-group-lbl">Discover</div>
+          <div className="nav-group-lbl" style={{ padding: '12px 12px 8px', fontSize: '11px', letterSpacing: '0.05em' }}>Discover</div>
           {navItems.map((item) => (
             <button
               key={item.id}
               className={`nav-item ${currentPanel === item.id ? 'active' : ''}`}
               onClick={() => setPanel(item.id as any)}
+              style={{ padding: '10px 12px', gap: '12px', fontSize: '14px' }}
             >
-              <item.icon size={15} />
-              {item.label}
+              <item.icon size={18} style={{ opacity: currentPanel === item.id ? 1 : 0.6 }} />
+              <span style={{ fontWeight: currentPanel === item.id ? 600 : 400 }}>{item.label}</span>
               {item.badge && (
-                <span className={`ni-badge ${item.badgeColor || ''}`}>{item.badge}</span>
+                <span className={`ni-badge ${item.badgeColor || ''}`} style={{ fontSize: '10px', padding: '2px 8px' }}>{item.badge}</span>
               )}
             </button>
           ))}
         </div>
 
-        <div className="nav-sep"></div>
+        <div className="nav-sep" style={{ margin: '12px 12px' }}></div>
 
         <div className="nav-group">
-          <div className="nav-group-lbl">My Jobs</div>
+          <div className="nav-group-lbl" style={{ padding: '12px 12px 8px', fontSize: '11px', letterSpacing: '0.05em' }}>My Workspace</div>
           {myJobs.map((item) => (
             <button
               key={item.id}
               className={`nav-item ${currentPanel === item.id ? 'active' : ''}`}
               onClick={() => setPanel(item.id as any)}
+              style={{ padding: '10px 12px', gap: '12px', fontSize: '14px' }}
             >
-              <item.icon size={15} />
-              {item.label}
+              <item.icon size={18} style={{ opacity: currentPanel === item.id ? 1 : 0.6 }} />
+              <span style={{ fontWeight: currentPanel === item.id ? 600 : 400 }}>{item.label}</span>
               {item.badge && (
-                <span className={`ni-badge ${item.badgeColor || ''}`}>{item.badge}</span>
+                <span className={`ni-badge ${item.badgeColor || ''}`} style={{ fontSize: '10px', padding: '2px 8px' }}>{item.badge}</span>
               )}
             </button>
           ))}
         </div>
 
-        <div className="nav-sep"></div>
+        <div className="nav-sep" style={{ margin: '12px 12px' }}></div>
 
         <div className="nav-group">
-          <div className="nav-group-lbl">Account</div>
+          <div className="nav-group-lbl" style={{ padding: '12px 12px 8px', fontSize: '11px', letterSpacing: '0.05em' }}>Settings</div>
           {account.map((item) => (
             <button
               key={item.id}
               className={`nav-item ${currentPanel === item.id ? 'active' : ''}`}
               onClick={() => setPanel(item.id as any)}
+              style={{ padding: '10px 12px', gap: '12px', fontSize: '14px' }}
             >
-              <item.icon size={15} />
-              {item.label}
+              <item.icon size={18} style={{ opacity: currentPanel === item.id ? 1 : 0.6 }} />
+              <span style={{ fontWeight: currentPanel === item.id ? 600 : 400 }}>{item.label}</span>
             </button>
           ))}
         </div>
       </nav>
 
       {/* Footer */}
-      <div className="sb-footer">
-        <button className="user-btn">
-          <div className="user-av">
+      <div className="sb-footer" style={{ padding: '16px' }}>
+        <button className="user-btn" style={{ padding: '10px' }}>
+          <div className="user-av" style={{ width: '36px', height: '36px', fontSize: '13px' }}>
             {user?.email?.substring(0, 1).toUpperCase() || 'U'}
           </div>
           <div className="user-info">
-            <div className="user-name">{user?.email?.split('@')[0] || 'Guest User'}</div>
-            <div className="user-email">{user?.email || 'guest@vibejobs.com'}</div>
+            <div className="user-name" style={{ fontSize: '14px', fontWeight: 600 }}>{user?.email?.split('@')[0] || 'Guest User'}</div>
+            <div className="user-email" style={{ fontSize: '12px' }}>{user?.email || 'guest@vibejobs.com'}</div>
           </div>
-          <MoreHorizontal size={14} className="user-caret" />
+          <MoreHorizontal size={16} className="user-caret" />
         </button>
       </div>
     </aside>

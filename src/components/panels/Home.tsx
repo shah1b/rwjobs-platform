@@ -132,7 +132,7 @@ export const HomePanel = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="stats-grid fade-up delay-1">
+      <div className="stats-grid fade-up delay-1" style={{ gap: '20px', marginBottom: '24px' }}>
         <StatCard label="Available Jobs" value="247" trend="+24%" trendDir="up" icon={Briefcase} />
         <StatCard label="Applications" value="3" trend="+2" trendDir="up" icon={FileText} />
         <StatCard label="Profile Views" value="12" trend="+8" trendDir="up" icon={Users} />
@@ -221,17 +221,22 @@ export const HomePanel = () => {
                 <div className="card-title">AI Career Agent</div>
               </div>
             </div>
-            <div className="agent-messages">
+            <div className="agent-messages" style={{ padding: '20px', gap: '16px' }}>
               <div className="msg ai">
-                <div className="msg-bubble">Your resume matches <strong>94%</strong> of React roles. Adding GraphQL could boost it to 98%.</div>
+                <div className="msg-av" style={{ background: 'var(--blue)', color: '#fff' }}>AI</div>
+                <div className="msg-bubble" style={{ background: 'var(--bg-muted)', borderRadius: '12px 12px 12px 2px', padding: '12px 16px' }}>
+                  Your resume matches <strong>94%</strong> of React roles. Adding GraphQL could boost it to 98%.
+                </div>
               </div>
               <div className="msg user">
-                <div className="msg-bubble">Which roles have async-friendly teams?</div>
+                <div className="msg-bubble" style={{ background: 'var(--accent)', color: 'var(--accent-fg)', borderRadius: '12px 12px 2px 12px', padding: '12px 16px' }}>
+                  Which roles have async-friendly teams?
+                </div>
               </div>
             </div>
-            <div className="agent-input-area">
-              <input className="agent-input" type="text" placeholder="Ask your AI agent..." />
-              <button className="agent-send"><Send size={14} /></button>
+            <div className="agent-input-area" style={{ padding: '12px 16px', background: 'var(--bg-card)' }}>
+              <input className="agent-input" type="text" placeholder="Ask your AI agent..." style={{ fontSize: '14px' }} />
+              <button className="agent-send" style={{ borderRadius: '50%', width: '32px', height: '32px' }}><Send size={14} /></button>
             </div>
           </div>
 
@@ -272,18 +277,18 @@ export const HomePanel = () => {
 };
 
 const StatCard = ({ label, value, trend, trendDir, icon: Icon }: any) => (
-  <div className="stat-card">
-    <div className="sc-header">
-      <span className="sc-label">{label}</span>
-      <div className="sc-icon" style={{ background: 'var(--bg-muted)' }}>
-        <Icon size={16} color="var(--txt-2)" />
+  <div className="stat-card" style={{ padding: '24px' }}>
+    <div className="sc-header" style={{ marginBottom: '16px' }}>
+      <span className="sc-label" style={{ fontSize: '14px', fontWeight: 500 }}>{label}</span>
+      <div className="sc-icon" style={{ background: 'var(--bg-muted)', width: '40px', height: '40px', borderRadius: '10px' }}>
+        <Icon size={18} color="var(--txt-2)" />
       </div>
     </div>
-    <div className="sc-value">{value}</div>
-    <div className="sc-trend">
+    <div className="sc-value" style={{ fontSize: '28px', fontWeight: 700 }}>{value}</div>
+    <div className="sc-trend" style={{ marginTop: '12px', gap: '6px', fontSize: '13px' }}>
       {trendDir === 'up' ? <TrendingUp size={14} className="up" /> : <TrendingDown size={14} className="dn" />}
-      <span className={trendDir}>{trend}</span>
-      <span className="sc-trend-lbl">vs last period</span>
+      <span className={trendDir} style={{ fontWeight: 600 }}>{trend}</span>
+      <span className="sc-trend-lbl" style={{ color: 'var(--txt-3)' }}>vs last period</span>
     </div>
   </div>
 );

@@ -48,7 +48,7 @@ export const LandingPage = () => {
               </p>
               <div className="hero-cta-group">
                 {user ? (
-                  <button className="btn-v-primary-lg" onClick={() => setPanel('browse')}>
+                  <button className="btn-v-primary-lg" onClick={() => setPanel('home')}>
                     Go to Dashboard <ArrowRight size={20} />
                   </button>
                 ) : (

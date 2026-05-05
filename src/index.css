@@ -1,14 +1,14 @@
 :root {
   --bg: #F9FAFB;
   --bg1: #FFFFFF;
-  --bg2: #F3F4F6;
-  --bg3: #E5E7EB;
-  --bg4: #D1D5DB;
-  --bg5: #9CA3AF;
-  --acc: #0052FF;
-  --acc2: #10B981;
-  --acc3: #EF4444;
-  --acc4: #F59E0B;
+  --bg2: #FFFFFF;
+  --bg3: #F3F4F6;
+  --bg4: #E5E7EB;
+  --bg5: #D1D5DB;
+  --acc: #36454f;
+  --acc2: #708090;
+  --acc3: #d3d3d3;
+  --acc4: #36454f;
   --txt: #111827;
   --txt2: #4B5563;
   --txt3: #9CA3AF;
@@ -18,8 +18,8 @@
   --r2: 12px;
   --r3: 8px;
   --r4: 4px;
-  --font: 'Cabinet Grotesk', sans-serif;
-  --body: 'Instrument Sans', sans-serif;
+  --font: 'DejaVu Sans', system-ui, sans-serif;
+  --body: 'DejaVu Sans', system-ui, sans-serif;
   --shadow: 0 4px 24px rgba(0, 0, 0, .05);
   --shadow2: 0 2px 12px rgba(0, 0, 0, .03);
 }

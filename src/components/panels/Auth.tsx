@@ -55,9 +55,27 @@ export const AuthPanel = () => {
         borderRadius: 'var(--r)', 
         padding: '32px' 
       }}>
-        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '24px', position: 'relative' }}>
+          <button 
+            onClick={() => setPanel('landing')}
+            style={{ 
+              position: 'absolute', 
+              top: '-10px', 
+              left: '-10px', 
+              background: 'none', 
+              border: 'none', 
+              color: 'var(--txt3)', 
+              fontSize: '11px', 
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}
+          >
+            ← Back
+          </button>
           <div className="logo-mark" style={{ margin: '0 auto 12px' }}>
-            <Sparkles size={20} color="#06070D" />
+            <Sparkles size={20} color="#FFF" />
           </div>
           <h2 style={{ fontFamily: 'var(--font)', fontWeight: 900, fontSize: '24px' }}>
             {isLogin ? 'Welcome Back' : 'Join VibeJobs'}

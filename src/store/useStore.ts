@@ -85,7 +85,6 @@ export const useStore = create<AppState>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         savedJobs: Array.from(state.savedJobs),
-        currentPanel: state.currentPanel,
         hasSeenOnboarding: state.hasSeenOnboarding,
       }) as any,
       onRehydrateStorage: () => (state) => {

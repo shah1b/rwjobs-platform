@@ -41,18 +41,12 @@ function App() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       const user = session?.user ?? null;
       setUser(user);
-      if (user && currentPanel === 'landing') {
-        setPanel('home');
-      }
     });
 
     // 2. Auth Listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       const user = session?.user ?? null;
       setUser(user);
-      if (user && currentPanel === 'landing') {
-        setPanel('home');
-      }
     });
 
     return () => subscription.unsubscribe();
@@ -121,10 +115,10 @@ function App() {
     }
   };
 
-  if (currentPanel === 'landing') {
+  if (currentPanel === 'landing' || currentPanel === 'auth') {
     return (
       <div className="app-container landing-mode">
-        <LandingPage />
+        {currentPanel === 'landing' ? <LandingPage /> : <AuthPanel />}
         <Modal />
       </div>
     );

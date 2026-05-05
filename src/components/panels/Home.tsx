@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
 import { 
   TrendingUp, TrendingDown, Briefcase, FileText, 
   Users, Bookmark, Download, Plus, Search, 
   Filter, Clock, MoreHorizontal, Send, 
-  Zap, ArrowUpRight
+  Zap, ArrowUpRight, Upload, X, CheckCircle
 } from 'lucide-react';
-import { useStore } from '../../store/useStore';
+import { useStore, type Job } from '../../store/useStore';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -31,12 +30,51 @@ ChartJS.register(
 );
 
 export const HomePanel = () => {
-  const { user, jobs } = useStore();
+  const { user, jobs, resumeData, setResumeData, savedJobs } = useStore();
   const [chartMode, setChartMode] = useState<'week' | 'month'>('week');
+  const [isUploading, setIsUploading] = useState(false);
 
-  const topMatches = [...jobs].sort((a, b) => b.match - a.match).slice(0, 3);
+  // AI Matching Logic
+  const processedJobs = jobs.map(job => {
+    if (!resumeData) return job;
+    
+    // Simple matching algorithm: check for common keywords
+    const jobText = (job.title + ' ' + (job.desc || '') + ' ' + (job.tags || []).join(' ')).toLowerCase();
+    const skills = resumeData.skills;
+    let matchScore = 0;
+    
+    skills.forEach(skill => {
+      if (jobText.includes(skill.toLowerCase())) matchScore += 10;
+    });
+
+    const baseMatch = Math.floor(Math.random() * 10) + 70; // Base match between 70-80
+    const finalMatch = Math.min(99, baseMatch + matchScore);
+
+    return { ...job, match: finalMatch };
+  });
+
+  const topMatches = [...processedJobs].sort((a, b) => (b.match || 0) - (a.match || 0)).slice(0, 3);
   const availableJobsCount = jobs.length;
-  const savedJobsCount = Array.from(useStore.getState().savedJobs).length;
+  const savedJobsCount = Array.from(savedJobs).length;
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    
+    // Simulate AI parsing
+    setTimeout(() => {
+      const mockSkills = ['React', 'TypeScript', 'Node.js', 'JavaScript', 'Tailwind', 'SQL'];
+      setResumeData({
+        content: "Extracted content from " + file.name,
+        fileName: file.name,
+        skills: mockSkills,
+        uploadedAt: new Date().toISOString()
+      });
+      setIsUploading(false);
+    }, 1500);
+  };
 
   const chartData = {
     week: {
@@ -137,16 +175,36 @@ export const HomePanel = () => {
 
       {/* Stats Grid */}
       <div className="stats-grid fade-up delay-1" style={{ gap: '20px', marginBottom: '24px' }}>
-        <StatCard label="Available Jobs" value={availableJobsCount.toString()} trend="+24%" trendDir="up" icon={Briefcase} />
-        <StatCard label="Applications" value="3" trend="+2" trendDir="up" icon={FileText} />
-        <StatCard label="Profile Views" value="12" trend="+8" trendDir="up" icon={Users} />
-        <StatCard label="Saved Jobs" value={savedJobsCount.toString()} trend="-1" trendDir="dn" icon={Bookmark} />
+        <StatCard label="Available Jobs" value={availableJobsCount.toString()} trend="+100%" trendDir="up" icon={Briefcase} />
+        <StatCard label="Applications" value="0" trend="0%" trendDir="up" icon={FileText} />
+        <StatCard label="Profile Views" value="0" trend="0%" trendDir="up" icon={Users} />
+        <StatCard label="Saved Jobs" value={savedJobsCount.toString()} trend="0%" trendDir="up" icon={Bookmark} />
       </div>
 
       {/* Main Grid */}
       <div className="grid-body fade-up delay-2">
         {/* Left Col */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Resume Upload CTA */}
+          {!resumeData && (
+            <div className="card" style={{ background: 'linear-gradient(135deg, var(--blue), var(--purple))', color: '#fff', border: 'none' }}>
+              <div className="card-body" style={{ display: 'flex', alignItems: 'center', gap: '24px', padding: '32px' }}>
+                <div style={{ background: 'rgba(255,255,255,0.15)', padding: '20px', borderRadius: '20px' }}>
+                  <Upload size={32} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '8px' }}>Unlock Personalized AI Matches</h3>
+                  <p style={{ opacity: 0.9, fontSize: '15px' }}>Upload your CV to let our AI find the best remote roles for your specific skill set.</p>
+                </div>
+                <div>
+                  <input type="file" id="cv-upload" hidden onChange={handleFileUpload} accept=".pdf,.doc,.docx" />
+                  <label htmlFor="cv-upload" className="btn" style={{ background: '#fff', color: 'var(--blue)', cursor: 'pointer', padding: '12px 24px' }}>
+                    {isUploading ? 'Analyzing...' : 'Upload CV'}
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
           {/* Chart Card */}
           <div className="card">
             <div className="card-header">
@@ -271,14 +329,14 @@ export const HomePanel = () => {
           <div className="card">
             <div className="card-header">
               <div className="card-title">Profile Strength</div>
-              <span style={{ fontSize: 13, fontWeight: 600 }}>60%</span>
+              <span style={{ fontSize: 13, fontWeight: 600 }}>{resumeData ? '85%' : '20%'}</span>
             </div>
             <div className="prog-rows">
-              <ProgressItem label="Resume uploaded" value={100} />
-              <ProgressItem label="Skills listed" value={80} />
-              <ProgressItem label="Job preferences" value={60} />
-              <button className="btn btn-secondary" style={{ width: '100%', justifyContent: 'center' }}>
-                Complete Profile
+              <ProgressItem label="Resume uploaded" value={resumeData ? 100 : 0} />
+              <ProgressItem label="Skills listed" value={resumeData ? 90 : 0} />
+              <ProgressItem label="Job preferences" value={resumeData ? 70 : 0} />
+              <button className="btn btn-secondary" style={{ width: '100%', justifyContent: 'center' }} onClick={() => setPanel('profile')}>
+                {resumeData ? 'Update Profile' : 'Complete Profile'}
               </button>
             </div>
           </div>

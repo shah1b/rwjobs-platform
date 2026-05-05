@@ -94,10 +94,10 @@ export const LandingPage = () => {
             </button>
           </div>
           <div className="hero-stats">
-            <div><div className="hero-stat-val">40k+</div><div className="hero-stat-lbl">job seekers</div></div>
-            <div><div className="hero-stat-val">94%</div><div className="hero-stat-lbl">match accuracy</div></div>
-            <div><div className="hero-stat-val">3 wks</div><div className="hero-stat-lbl">avg. placement</div></div>
-            <div><div className="hero-stat-val">8 AI</div><div className="hero-stat-lbl">specialist agents</div></div>
+            <div><div className="hero-stat-val">{jobs.length > 0 ? jobs.length : '50+'}</div><div className="hero-stat-lbl">Live Remote Roles</div></div>
+            <div><div className="hero-stat-val">AI</div><div className="hero-stat-lbl">Match Scoring</div></div>
+            <div><div className="hero-stat-val">24/7</div><div className="hero-stat-lbl">Real-time Alerts</div></div>
+            <div><div className="hero-stat-val">60s</div><div className="hero-stat-lbl">CV Analysis</div></div>
           </div>
 
           {/* Card Mockup */}

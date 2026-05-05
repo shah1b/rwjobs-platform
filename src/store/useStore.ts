@@ -34,6 +34,12 @@ interface AppState {
   selectedJobId: number | string | null;
   user: any | null;
   authMode: 'login' | 'signup';
+  resumeData: {
+    content: string;
+    fileName: string;
+    skills: string[];
+    uploadedAt: string | null;
+  } | null;
   
   setJobs: (jobs: Job[]) => void;
   toggleSave: (id: number | string) => void;
@@ -43,6 +49,7 @@ interface AppState {
   setSelectedJob: (id: number | string | null) => void;
   setUser: (user: any) => void;
   setAuthMode: (mode: 'login' | 'signup') => void;
+  setResumeData: (data: any) => void;
   hasSeenOnboarding: boolean;
   completeOnboarding: () => void;
 }
@@ -58,6 +65,7 @@ export const useStore = create<AppState>()(
       selectedJobId: null,
       user: null,
       authMode: 'login',
+      resumeData: null,
 
       setJobs: (jobs) => set({ jobs, isLoading: false }),
       
@@ -81,6 +89,7 @@ export const useStore = create<AppState>()(
 
       setUser: (user) => set({ user }),
       setAuthMode: (mode) => set({ authMode: mode }),
+      setResumeData: (data) => set({ resumeData: data }),
       hasSeenOnboarding: false,
       completeOnboarding: () => set({ hasSeenOnboarding: true }),
     }),
@@ -90,6 +99,7 @@ export const useStore = create<AppState>()(
       partialize: (state) => ({
         savedJobs: Array.from(state.savedJobs),
         hasSeenOnboarding: state.hasSeenOnboarding,
+        resumeData: state.resumeData,
       }) as any,
       onRehydrateStorage: () => (state) => {
         if (state && state.savedJobs) {

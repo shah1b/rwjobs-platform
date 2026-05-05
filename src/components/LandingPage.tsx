@@ -16,8 +16,7 @@ export const LandingPage = () => {
       <nav className="v-nav">
         <div className="container v-nav-inner">
           <div className="logo-group" onClick={() => setPanel('home')}>
-            <div className="logo-icon">VJ</div>
-            <span className="logo-text">Vibe<span>Jobs</span></span>
+            <img src="/Logo- VJ.png" alt="VibeJobs" className="nav-logo-img" />
           </div>
           
           <div className="nav-actions">
@@ -153,8 +152,7 @@ export const LandingPage = () => {
       <footer className="v-footer">
         <div className="container v-footer-inner">
           <div className="logo-group">
-            <div className="logo-icon">VJ</div>
-            <span className="logo-text">Vibe<span>Jobs</span></span>
+            <img src="/Logo- VJ.png" alt="VibeJobs" className="nav-logo-img" />
           </div>
           <div className="footer-copyright">
             © 2026 VibeJobs. All rights reserved.

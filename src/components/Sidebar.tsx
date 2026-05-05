@@ -26,10 +26,7 @@ export const Sidebar = () => {
     <aside className="sidebar">
       <div className="logo-area">
         <div className="logo">
-          <div className="logo-mark">
-            <Sparkles size={20} />
-          </div>
-          <span className="logo-text">Vibe<span>Jobs</span></span>
+          <img src="/Logo- VJ.png" alt="VibeJobs" className="sidebar-logo-img" />
         </div>
       </div>
 

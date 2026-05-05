@@ -138,6 +138,22 @@ body {
   color: var(--acc);
 }
 
+/* Real logo image — sidebar */
+.sidebar-logo-img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Real logo image — landing nav & footer */
+.nav-logo-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
 .sidebar-nav {
   flex: 1;
   overflow-y: auto;

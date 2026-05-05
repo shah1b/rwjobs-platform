@@ -31,8 +31,12 @@ ChartJS.register(
 );
 
 export const HomePanel = () => {
-  const { user } = useStore();
+  const { user, jobs } = useStore();
   const [chartMode, setChartMode] = useState<'week' | 'month'>('week');
+
+  const topMatches = [...jobs].sort((a, b) => b.match - a.match).slice(0, 3);
+  const availableJobsCount = jobs.length;
+  const savedJobsCount = Array.from(useStore.getState().savedJobs).length;
 
   const chartData = {
     week: {
@@ -133,10 +137,10 @@ export const HomePanel = () => {
 
       {/* Stats Grid */}
       <div className="stats-grid fade-up delay-1" style={{ gap: '20px', marginBottom: '24px' }}>
-        <StatCard label="Available Jobs" value="247" trend="+24%" trendDir="up" icon={Briefcase} />
+        <StatCard label="Available Jobs" value={availableJobsCount.toString()} trend="+24%" trendDir="up" icon={Briefcase} />
         <StatCard label="Applications" value="3" trend="+2" trendDir="up" icon={FileText} />
         <StatCard label="Profile Views" value="12" trend="+8" trendDir="up" icon={Users} />
-        <StatCard label="Saved Jobs" value="12" trend="-1" trendDir="dn" icon={Bookmark} />
+        <StatCard label="Saved Jobs" value={savedJobsCount.toString()} trend="-1" trendDir="dn" icon={Bookmark} />
       </div>
 
       {/* Main Grid */}
@@ -203,9 +207,17 @@ export const HomePanel = () => {
                 </tr>
               </thead>
               <tbody>
-                <JobRow role="Senior Frontend Engineer" company="Stripe" match="98%" type="Full-time" salary="$95k–120k" posted="2h ago" />
-                <JobRow role="Product Designer" company="GitHub" match="95%" type="Full-time" salary="$80k–100k" posted="5h ago" />
-                <JobRow role="Full-Stack Engineer" company="Vercel" match="93%" type="Contract" salary="$90k–115k" posted="Yesterday" />
+                {topMatches.map(job => (
+                  <JobRow 
+                    key={job.id}
+                    role={job.title}
+                    company={job.company}
+                    match={`${job.match}%`}
+                    type={job.type}
+                    salary={job.salary}
+                    posted={job.posted}
+                  />
+                ))}
               </tbody>
             </table>
           </div>

@@ -28,7 +28,7 @@ export type Job = {
 interface AppState {
   jobs: Job[];
   savedJobs: Set<number | string>;
-  currentPanel: 'home' | 'browse' | 'agent' | 'saved' | 'profile' | 'apps' | 'alerts' | 'auth';
+  currentPanel: 'landing' | 'home' | 'browse' | 'agent' | 'saved' | 'profile' | 'apps' | 'alerts' | 'auth';
   isLoading: boolean;
   searchQuery: string;
   selectedJobId: number | string | null;
@@ -36,7 +36,7 @@ interface AppState {
   
   setJobs: (jobs: Job[]) => void;
   toggleSave: (id: number | string) => void;
-  setPanel: (panel: 'home' | 'browse' | 'agent' | 'saved' | 'profile' | 'apps' | 'alerts' | 'auth') => void;
+  setPanel: (panel: 'landing' | 'home' | 'browse' | 'agent' | 'saved' | 'profile' | 'apps' | 'alerts' | 'auth') => void;
   setLoading: (loading: boolean) => void;
   setSearchQuery: (query: string) => void;
   setSelectedJob: (id: number | string | null) => void;
@@ -50,7 +50,7 @@ export const useStore = create<AppState>()(
     (set) => ({
       jobs: [],
       savedJobs: new Set(),
-      currentPanel: 'home',
+      currentPanel: 'landing',
       isLoading: true,
       searchQuery: '',
       selectedJobId: null,

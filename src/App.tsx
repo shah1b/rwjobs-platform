@@ -14,6 +14,7 @@ import { AppsPanel } from './components/panels/AppsPanel';
 import { AlertsPanel } from './components/panels/AlertsPanel';
 import { Modal } from './components/Modal';
 import { Onboarding } from './components/Onboarding';
+import { LandingPage } from './components/LandingPage';
 
 const mapCategory = (cat: string) => {
   const m: Record<string, string> = {
@@ -33,21 +34,29 @@ const mapCategory = (cat: string) => {
 };
 
 function App() {
-  const { currentPanel, setJobs, setLoading, setUser, hasSeenOnboarding } = useStore();
+  const { currentPanel, setPanel, setJobs, setLoading, setUser, hasSeenOnboarding } = useStore();
 
   useEffect(() => {
     // 1. Initial Session Check
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+      const user = session?.user ?? null;
+      setUser(user);
+      if (user && currentPanel === 'landing') {
+        setPanel('home');
+      }
     });
 
     // 2. Auth Listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      const user = session?.user ?? null;
+      setUser(user);
+      if (user && currentPanel === 'landing') {
+        setPanel('home');
+      }
     });
 
     return () => subscription.unsubscribe();
-  }, [setUser]);
+  }, [setUser, setPanel, currentPanel]);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -99,6 +108,7 @@ function App() {
 
   const renderPanel = () => {
     switch (currentPanel) {
+      case 'landing': return <LandingPage />;
       case 'home': return <HomePanel />;
       case 'browse': return <BrowsePanel />;
       case 'agent': return <AgentPanel />;
@@ -107,9 +117,18 @@ function App() {
       case 'auth': return <AuthPanel />;
       case 'apps': return <AppsPanel />;
       case 'alerts': return <AlertsPanel />;
-      default: return <HomePanel />;
+      default: return <LandingPage />;
     }
   };
+
+  if (currentPanel === 'landing') {
+    return (
+      <div className="app-container">
+        <LandingPage />
+        <Modal />
+      </div>
+    );
+  }
 
   return (
     <div className="app-container">
